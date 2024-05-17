@@ -1,0 +1,62 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark 
+    justify-content: space-between
+    align-items: center
+    background: $white-color
+    padding: 20px
+    border-radius: 10px
+
+    ._menu
+        font-size: 15.5px
+        column-gap: 30px
+        text-transform: capitalize
+        li
+            a
+                column-gap: 5px
+                align-items: center
+                transition: 0.2s
+                padding: 10px 15px
+                border-radius: 5px
+                color: get-color-level($black-color, 70)
+                &:hover
+                    background: get-color-level($main-color, 7)
+                svg
+                    color: $main-color
+
+            a._active
+                background: get-color-level($main-color, 7)
+                color: $black-color
+                        
+
+    ._tool
+        column-gap: 10px
+        width: 205.6px
+
+._container__light
+    background: $white-color
+    box-shadow: 0 0 5px 0 get-color-level($main-color, 10)
+    ._menu
+        li
+            a
+                color: get-color-level($black-color, 70)
+                &:hover
+                    background: get-color-level($main-color, 7)
+                    color: $black-color
+            a._active
+                background: get-color-level($main-color, 7)
+                color: $main-color
+
+._container__dark          
+    background: rgb(0, 0, 0)
+    ._menu
+        li
+            a
+                color: get-color-level($white-color, 70)
+                &:hover
+                    background: get-color-level($main-color, 20)
+                    color: $white-color
+            a._active
+                background: get-color-level($main-color, 20)
+                color: $main-color
