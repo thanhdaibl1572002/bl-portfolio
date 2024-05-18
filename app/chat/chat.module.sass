@@ -1,0 +1,21 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark  
+    // width: calc( 100% - 350px - 20px )
+    width: 100%
+    border-radius: 10px
+    overflow: hidden
+    padding: 20px   
+    flex-direction: column
+    justify-content: space-between
+    row-gap: 10px
+    @media ( max-width: 500px )
+        padding: 0
+
+._container__light
+    background: $white-color
+    box-shadow: 0 0 5px 0 get-color-level($main-color, 10)
+
+._container__dark       
+    background: $black-color

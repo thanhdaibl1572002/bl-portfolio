@@ -1,0 +1,138 @@
+@import ../../variables/variables
+
+._container__light__sender,
+._container__light__receiver,
+._container__dark__sender,
+._container__dark__receiver  
+    width: 100%
+    height: fit-content
+    flex-direction: column
+    row-gap: 5px
+    ._message
+        position: relative
+        width: fit-content
+        max-width: 80%
+        flex-direction: column
+        row-gap: 2px
+        &:hover
+            ._tool
+                opacity: 1
+                visibility: visible
+        ._text
+            width: fit-content
+            padding: 12px
+            font-size: 14.5px
+            line-height: 24px
+            border-radius: 10px
+            position: relative
+        ._image
+            width: 250px
+            border-radius: 8px
+            cursor: pointer
+            position: relative
+            img
+                border-radius: 8px
+        ._tool
+            position: absolute
+            top: calc( 100% + 1px)
+            align-items: center
+            column-gap: 5px
+            z-index: 100
+            padding: 3px
+            border-radius: 30px
+            opacity: 0
+            visibility: hidden
+            transition: 0.2s
+            li
+                cursor: pointer
+                font-size: 16px
+                transition: 0.1s
+                &:hover, &:hover svg
+                    font-size: 20px
+                svg
+                    font-size: 17px
+                    color: $main-color
+                    transition: 0.1s
+        ._emotion
+            position: absolute
+            bottom: -12px
+            right: -12px
+            padding: 2px
+            border-radius: 50%
+        ._reply__text
+            padding: 10px
+            font-size: 13.5px
+            border-radius: 10px
+            color: get-color-level($dark-color, 50)
+            background: get-color-level($main-color, 10)
+            cursor: pointer
+        ._reply__image
+            width: 200px
+            border-radius: 8px
+            cursor: pointer
+            position: relative
+            opacity: 0.5
+            img
+                border-radius: 8px
+        
+._container__light__sender
+    align-items: flex-end
+    ._message
+        align-items: flex-end
+        ._text
+            background: $main-gradient-color
+            color: $white-color
+        ._tool
+            background: $white-color
+            right: 0
+        ._emotion
+            background: $white-color
+        ._reply__text
+            color: get-color-level($dark-color, 50)
+            background: get-color-level($main-color, 10)
+
+._container__light__receiver
+    ._message
+        align-items: flex-start
+        ._text
+            background: $white-color
+            color: $dark-color
+        ._tool
+            background: $white-color
+            left: 0
+        ._emotion
+            background: $white-color
+        ._reply__text
+            color: get-color-level($dark-color, 50)
+            background: get-color-level($main-color, 10)
+
+._container__dark__sender
+    align-items: flex-end
+    ._message
+        align-items: flex-end
+        ._text
+            background: $main-gradient-color
+            color: $white-color
+        ._tool
+            background: $dark-color
+            right: 0
+        ._emotion
+            background: $dark-color
+        ._reply__text
+            color: get-color-level($white-color, 50)
+            background: get-color-level($main-color, 5)
+
+._container__dark__receiver   
+    ._message
+        align-items: flex-start
+        ._text
+            background: $dark-color
+            color: $white-color
+        ._tool
+            background: $dark-color
+            left: 0
+        ._emotion
+            background: $dark-color
+        ._reply__text
+            color: get-color-level($white-color, 50)
+            background: get-color-level($main-color, 5)

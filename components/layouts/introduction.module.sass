@@ -1,0 +1,56 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark 
+    flex-direction: column
+    row-gap: 25px
+    border-radius: 10px
+    padding: 20px
+    width: 350px
+    height: fit-content
+    ._avatar
+        width: 100%
+        justify-content: center
+        align-items: center
+        border-radius: 10px
+    ._info
+        flex-direction: column
+        row-gap: 20px
+        h2
+            font-size: 24px
+            font-weight: 500
+            text-transform: capitalize
+            color: $main-color
+            text-align: center
+        ul
+            flex-direction: column
+            row-gap: 15px
+            li
+                align-items: center
+                font-size: 15px
+                font-weight: 300
+                column-gap: 5px
+                span
+                    color: $main-color
+                    font-size: 10px
+    ._social
+        column-gap: 8px
+
+._container__light
+    background: $white-color
+    box-shadow: 0 0 5px 0 get-color-level($main-color, 10)
+    ._avatar
+        background: get-color-level($main-color, 5)
+    ._info
+        ul
+            li
+                color: $black-color
+
+._container__dark 
+    background: $black-color
+    ._avatar
+        background: $dark-color
+    ._info
+        ul
+            li
+                color: $white-color

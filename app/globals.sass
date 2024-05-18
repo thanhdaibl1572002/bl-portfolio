@@ -8,6 +8,15 @@
 
 body
   overflow-x: hidden
+  padding: 20px 100px
+  display: flex
+  flex-direction: column
+  row-gap: 20px
+  @media ( max-width: 1000px )
+    padding: 20px
+  @media ( max-width: 500px )
+    padding: 0
+    
 
 div, main, header, footer, ul, ol, li, section, a, span, p, label, strong, address, nav
   display: flex
@@ -37,3 +46,7 @@ input[type="number"]
 ::-webkit-scrollbar
   width: 0
   height: 0
+
+#slideshowAnim
+  background: transparent !important
+  backdrop-filter: blur(100px)

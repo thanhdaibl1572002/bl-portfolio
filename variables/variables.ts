@@ -2,6 +2,7 @@ export const mainFontFamily = 'Inter'
 export const logoFontFamily = 'Black Ops One'
 
 export const mainColor = `rgb(42, 112, 248)`
+export const darkColor = `rgb(6, 16, 36)`
 export const whiteColor = `rgb(255, 255, 255)`
 export const blackColor = `rgb(0, 0, 0)`
 export const redColor = `rgb(255, 56, 56)`
