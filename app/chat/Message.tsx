@@ -52,7 +52,7 @@ const Message: FC<IMessageProps> = ({
                             <li><IoArrowUndoOutline /></li>
                             <li><IoRefreshOutline /></li>
                         </ul>
-                        <div className={styles._emotion}>{emotion}</div>
+                        {emotion && <div className={styles._emotion}>{emotion}</div>}
                     </div>
                 )}
                 {imageSrc && type === 'image' && (
@@ -71,7 +71,7 @@ const Message: FC<IMessageProps> = ({
                             <li><IoArrowUndoOutline /></li>
                             <li><IoRefreshOutline /></li>
                         </ul>
-                        <div className={styles._emotion}>{emotion}</div>
+                        {emotion && <div className={styles._emotion}>{emotion}</div>}
                     </div>
                 )}
             </div>
