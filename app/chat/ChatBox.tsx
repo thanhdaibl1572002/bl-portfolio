@@ -23,7 +23,7 @@ const ChatBox: FC<IChatBoxProps> = ({
             </div>
             <div className={styles._group}>
                 <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <Message type='text' text='Đây là đường dẫn đến dự án mới nhất của mình: [link]' role='receiver' />
+                <Message type='text' text='Đây là hình ảnh dự án mới nhất của mình.' role='receiver' />
                 <Message type='text' text='Bạn có thể xem nó tại đây.' role='receiver' />
                 <Message type='image' imageSrc='/message.jpeg' role='receiver' />
             </div>
