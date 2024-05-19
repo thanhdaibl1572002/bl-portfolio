@@ -7,6 +7,7 @@ import { useAppSelector } from '@/redux'
 import { IoArrowUndoOutline, IoRefreshOutline } from 'react-icons/io5'
 import { Image as LightBoxImage } from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
+import { mainColor } from '@/variables/variables'
 
 interface IMessageProps {
     role: 'sender' | 'receiver'
@@ -74,7 +75,7 @@ const Message: FC<IMessageProps> = ({
         if (type === 'image' && imageSrc) {
             return (
                 <div className={styles._image}>
-                    <LightBoxImage image={{ src: imageSrc, title: imageAlt }} />
+                    <LightBoxImage image={{ src: imageSrc, title: imageAlt }} iconColor={mainColor} />
                     <ReactionIcons />
                     {emotion && <div className={styles._emotion}>{emotion}</div>}
                     <span className={styles._timestamp}><span>10:30</span> 19/05/2024</span>
