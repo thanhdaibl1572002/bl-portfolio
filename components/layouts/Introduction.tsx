@@ -1,10 +1,12 @@
 import { FC } from 'react'
 import styles from '@/components/layouts/introduction.module.sass'
 import { useAppSelector } from '@/redux'
-import Button from '../forms/Button'
+import Button from '@/components/forms/Button'
 import { getColorLevel, mainColor, whiteColor } from '@/variables/variables'
-import { SiFacebook, SiGithub, SiGmail } from 'react-icons/si'
 import Image from 'next/image'
+import { VscGithubAlt } from 'react-icons/vsc'
+import { PiMessengerLogoLight } from 'react-icons/pi'
+import { SlSocialFacebook } from 'react-icons/sl'
 
 const Introduction: FC = ({ }) => {
     const { theme } = useAppSelector(state => state.theme)
@@ -24,35 +26,38 @@ const Introduction: FC = ({ }) => {
             </div>
             <div className={styles._social}>
                 <Button
+                    className={styles._switch__mode}
                     width={38}
                     height={38}
-                    icon={<SiFacebook />}
-                    iconSize={20}
+                    icon={<VscGithubAlt />}
+                    iconSize={21}
                     iconColor={mainColor}
-                    background={theme === 'light' ? whiteColor : getColorLevel(mainColor, 20)}
-                    animateDuration={250}
+                    background={theme === 'light' ? getColorLevel(mainColor, 7) : getColorLevel(mainColor, 20)}
+                    animateDuration={300}
                     boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? mainColor : whiteColor, 10)}`}
                     bubbleColor={theme === 'light' ? mainColor : whiteColor}
                 />
                 <Button
+                    className={styles._switch__mode}
                     width={38}
                     height={38}
-                    icon={<SiGithub />}
-                    iconSize={20}
+                    icon={<SlSocialFacebook />}
+                    iconSize={21}
                     iconColor={mainColor}
-                    background={theme === 'light' ? whiteColor : getColorLevel(mainColor, 20)}
-                    animateDuration={250}
+                    background={theme === 'light' ? getColorLevel(mainColor, 7) : getColorLevel(mainColor, 20)}
+                    animateDuration={300}
                     boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? mainColor : whiteColor, 10)}`}
                     bubbleColor={theme === 'light' ? mainColor : whiteColor}
                 />
                 <Button
+                    className={styles._switch__mode}
                     width={38}
                     height={38}
-                    icon={<SiGmail />}
-                    iconSize={20}
+                    icon={<PiMessengerLogoLight />}
+                    iconSize={22}
                     iconColor={mainColor}
-                    background={theme === 'light' ? whiteColor : getColorLevel(mainColor, 20)}
-                    animateDuration={250}
+                    background={theme === 'light' ? getColorLevel(mainColor, 7) : getColorLevel(mainColor, 20)}
+                    animateDuration={300}
                     boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? mainColor : whiteColor, 10)}`}
                     bubbleColor={theme === 'light' ? mainColor : whiteColor}
                 />
