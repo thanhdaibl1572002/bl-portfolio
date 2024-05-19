@@ -8,6 +8,11 @@
     padding: 20px
     width: 350px
     height: fit-content
+    @media ( max-width: 900px )
+        width: 100%
+    @media ( max-width: 500px )
+        border-radius: 0
+        padding: 15px
     ._avatar
         width: 100%
         justify-content: center
@@ -38,7 +43,6 @@
 
 ._container__light
     background: $white-color
-    box-shadow: 0 0 5px 0 get-color-level($main-color, 10)
     ._avatar
         background: get-color-level($main-color, 5)
     ._info

@@ -7,11 +7,32 @@
     background: $white-color
     padding: 20px
     border-radius: 10px
-
+    @media ( max-width: 500px )
+        border-radius: 0
+        position: fixed
+        width: 100%
+        top: 0
+        left: 0
+    ._open__menu
+        display: none
+        @media ( max-width: 1050px )
+            display: flex
+    ._chat__mobile
+        display: none
+        @media ( max-width: 500px )
+            display: flex
+    ._switch__mode,
+    ._chat__window,
+    ._menu
+        @media ( max-width: 500px )
+            display: none
     ._menu
         font-size: 15.5px
-        column-gap: 30px
+        column-gap: 25px
         text-transform: capitalize
+        @media ( max-width: 1050px )
+            position: fixed
+            z-index: 1000
         li
             a
                 column-gap: 5px
@@ -33,10 +54,11 @@
     ._tool
         column-gap: 10px
         width: 205.6px
+        @media ( max-width: 1050px )
+            width: fit-content
 
 ._container__light
     background: $white-color
-    box-shadow: 0 0 5px 0 get-color-level($main-color, 10)
     ._menu
         li
             a

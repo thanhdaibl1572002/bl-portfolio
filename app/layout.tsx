@@ -16,12 +16,12 @@ const RootBody: FC<IRootBodyProps> = ({ children }) => {
   const { theme } = useAppSelector(state => state.theme)
   return (
     <body style={{ background: theme === 'light' ? getColorLevel(mainColor, 3) : darkColor }}>
-      {/* <Header /> */}
-      <main style={{ gap: 20 }}>
-        {/* <Introduction /> */}
+      <Header />
+      <main className='main'>
+        <Introduction />
         {children}
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </body>
   )
 }

@@ -61,6 +61,12 @@ const ChatBox: FC<IChatBoxProps> = ({
             <div className={styles._group}>
                 <Message replyImageSrc='/message.jpeg' role='sender' imageSrc='/message.jpeg' type='image' />
             </div>
+            <div className={styles._group}>
+                <Message recall type='text' text='Chào' role='sender' emotion='❤️' />
+            </div>
+            <div className={styles._group}>
+                <Message recall type='text' text='Chào' role='receiver' emotion='❤️' />
+            </div>
         </div>
     )
 }

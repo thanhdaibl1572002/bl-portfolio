@@ -12,11 +12,10 @@ body
   display: flex
   flex-direction: column
   row-gap: 20px
-  @media ( max-width: 1000px )
+  @media ( max-width: 1200px )
     padding: 20px
   @media ( max-width: 500px )
     padding: 0
-    
 
 div, main, header, footer, ul, ol, li, section, a, span, p, label, strong, address, nav
   display: flex
@@ -50,3 +49,8 @@ input[type="number"]
 #slideshowAnim
   background: transparent !important
   backdrop-filter: blur(100px)
+
+.main
+  gap: 20px
+  @media ( max-width: 900px )
+    flex-direction: column-reverse

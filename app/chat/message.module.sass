@@ -15,7 +15,7 @@
         flex-direction: column
         row-gap: 2px
         &:hover
-            ._tool
+            ._tool, ._timestamp
                 opacity: 1
                 visibility: visible
         ._text
@@ -38,7 +38,7 @@
             align-items: center
             column-gap: 5px
             z-index: 100
-            padding: 3px
+            padding: 3px 5px
             border-radius: 30px
             opacity: 0
             visibility: hidden
@@ -55,14 +55,30 @@
                     transition: 0.1s
         ._emotion
             position: absolute
-            width: 28px
-            height: 28px
-            font-size: 18px
+            width: 25px
+            height: 25px
+            font-size: 17px
             justify-content: center
             align-items: center
-            bottom: -12px
-            right: -12px
+            bottom: -10px
+            right: -10px
             border-radius: 50%
+
+        ._timestamp
+            font-size: 9.5px
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+            line-height: 10px
+            flex-direction: column
+            row-gap: 3px
+            opacity: 0
+            visibility: hidden
+            transition: 0.2s
+        ._recall__text
+            padding: 12px
+            font-size: 14.5px
+            border-radius: 10px
         ._reply__text
             padding: 10px
             font-size: 13.5px
@@ -75,9 +91,15 @@
             border-radius: 8px
             cursor: pointer
             position: relative
-            opacity: 0.5
+            flex-direction: column
+            row-gap: 5px
+            font-size: 13.5px
+            background: get-color-level($main-color, 10)
+            color: get-color-level($black-color, 50)
+            padding: 10px
             img
-                border-radius: 8px
+                border-radius: 5px
+                opacity: 0.5
         
 ._container__light__sender
     align-items: flex-end
@@ -91,7 +113,13 @@
             right: 0
         ._emotion
             background: $white-color
-        ._reply__text
+        ._timestamp
+            right: calc( 100% + 5px )
+            align-items: flex-end
+            color: get-color-level($dark-color, 50)
+        ._reply__text, 
+        ._reply__image,
+        ._recall__text
             color: get-color-level($dark-color, 50)
             background: get-color-level($main-color, 10)
 
@@ -106,7 +134,13 @@
             left: 0
         ._emotion
             background: $white-color
-        ._reply__text
+        ._timestamp
+            left: calc( 100% + 5px )
+            align-items: flex-start
+            color: get-color-level($dark-color, 50)
+        ._reply__text, 
+        ._reply__image,
+        ._recall__text
             color: get-color-level($dark-color, 50)
             background: get-color-level($main-color, 10)
 
@@ -122,7 +156,13 @@
             right: 0
         ._emotion
             background: $dark-color
-        ._reply__text
+        ._timestamp
+            right: calc( 100% + 5px )
+            align-items: flex-end
+            color: get-color-level($white-color, 50)
+        ._reply__text, 
+        ._reply__image,
+        ._recall__text
             color: get-color-level($white-color, 50)
             background: get-color-level($main-color, 5)
 
@@ -137,6 +177,12 @@
             left: 0
         ._emotion
             background: $dark-color
-        ._reply__text
+        ._timestamp
+            left: calc( 100% + 5px )
+            align-items: flex-start
+            color: get-color-level($white-color, 50)
+        ._reply__text, 
+        ._reply__image,
+        ._recall__text
             color: get-color-level($white-color, 50)
             background: get-color-level($main-color, 5)
