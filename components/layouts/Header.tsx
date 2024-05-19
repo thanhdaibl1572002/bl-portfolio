@@ -35,18 +35,6 @@ const Header: FC = () => {
             </ul>
             <div className={styles._tool}>
                 <Button
-                    className={styles._open__menu}
-                    width={40}
-                    height={40}
-                    icon={<CiCircleList />}
-                    iconSize={24}
-                    iconColor={mainColor}
-                    background={theme === 'light' ? getColorLevel(mainColor, 7) : getColorLevel(mainColor, 20)}
-                    animateDuration={300}
-                    boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? mainColor : whiteColor, 10)}`}
-                    bubbleColor={theme === 'light' ? mainColor : whiteColor}
-                />
-                <Button
                     className={styles._switch__mode}
                     width={40}
                     height={40}
@@ -73,6 +61,18 @@ const Header: FC = () => {
                     boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? whiteColor : mainColor, 10)}`}
                     bubbleColor={whiteColor}
                     onClick={() => router.push('/chat')}
+                />
+                <Button
+                    className={styles._open__menu}
+                    width={40}
+                    height={40}
+                    icon={<CiCircleList />}
+                    iconSize={24}
+                    iconColor={mainColor}
+                    background={theme === 'light' ? getColorLevel(mainColor, 7) : getColorLevel(mainColor, 20)}
+                    animateDuration={300}
+                    boxShadow={`0 1px 1.5px 0 ${getColorLevel(theme === 'light' ? mainColor : whiteColor, 10)}`}
+                    bubbleColor={theme === 'light' ? mainColor : whiteColor}
                 />
                 <Button
                     className={styles._chat__mobile}
