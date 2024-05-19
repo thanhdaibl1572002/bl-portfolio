@@ -7,6 +7,7 @@
     background: $white-color
     padding: 20px
     border-radius: 10px
+    position: relative
     @media ( max-width: 500px )
         border-radius: 0
         position: fixed
@@ -14,6 +15,7 @@
         top: 0
         left: 0
         padding: 15px
+        z-index: 100
     ._open__menu
         display: none
         @media ( max-width: 1050px )
@@ -22,8 +24,7 @@
         display: none
         @media ( max-width: 500px )
             display: flex
-    ._chat__window,
-    ._menu
+    ._chat__window
         @media ( max-width: 500px )
             display: none
     ._menu
@@ -31,8 +32,19 @@
         column-gap: 25px
         text-transform: capitalize
         @media ( max-width: 1050px )
-            position: fixed
-            z-index: 1000
+            position: absolute
+            top: calc( 100% + 1px )
+            right: 15px
+            flex-direction: column
+            width: 200px
+            border-radius: 10px
+            overflow: hidden
+            z-index: 100
+            li 
+                a
+                    width: 100%
+                    border-radius: 0 !important
+                    column-gap: 10px !important
         li
             a
                 column-gap: 5px
@@ -60,6 +72,9 @@
 ._container__light
     background: $white-color
     ._menu
+        @media ( max-width: 1050px )
+            background: $white-color
+            box-shadow: 0 1px 0 0 get-color-level($main-color, 10)
         li
             a
                 color: get-color-level($black-color, 70)
@@ -71,8 +86,10 @@
                 color: $main-color
 
 ._container__dark          
-    background: rgb(0, 0, 0)
+    background: $black-color
     ._menu
+        @media ( max-width: 1050px )
+            background: $black-color
         li
             a
                 color: get-color-level($white-color, 70)
