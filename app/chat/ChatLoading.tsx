@@ -6,7 +6,8 @@ const ChatLoading: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
     return (
         <div className={styles[`_container__${theme}`]}>
-            Loading...
+            <span className={styles._loading}></span>
+            Đang tải đoạn hội thoại
         </div>
     )
 }
