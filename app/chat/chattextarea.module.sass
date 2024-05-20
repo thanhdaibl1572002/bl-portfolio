@@ -14,7 +14,6 @@
         position: fixed
         bottom: 0
         left: 0
-        background: $white-color
         z-index: 99
     textarea
         width: calc( 100% - 100px )
@@ -30,6 +29,8 @@
            font-weight: 300
 
 ._container__light
+    @media ( max-width: 500px )
+        background: $white-color
     textarea
         border: 1px solid get-color-level($main-color, 10)
         background: $white-color
@@ -37,7 +38,9 @@
         &::placeholder
             color: get-color-level($dark-color, 50)
 
-._container__dark       
+._container__dark      
+    @media ( max-width: 500px )
+        background: $black-color 
     textarea
         border: 1px solid get-color-level($main-color, 10)
         background: $dark-color
