@@ -6,6 +6,7 @@ import i18n, { I18nextProvider } from '@/languages'
 import { darkColor, getColorLevel, mainColor } from '@/variables/variables'
 import Header from '@/components/layouts/Header'
 import Footer from '@/components/layouts/Footer'
+import Introduction from '@/components/layouts/Introduction'
 
 interface IRootBodyProps {
   children: ReactNode | ReactElement
@@ -17,6 +18,7 @@ const RootBody: FC<IRootBodyProps> = ({ children }) => {
     <body style={{ background: theme === 'light' ? getColorLevel(mainColor, 3) : darkColor }}>
       <Header />
       <main className='main'>
+        <Introduction />
         {children}
       </main>
       <Footer />
