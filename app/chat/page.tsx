@@ -1,16 +1,17 @@
 'use client'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from '@/app/chat/chat.module.sass'
 import { useAppSelector } from '@/redux'
+import { firebaseAuth } from '@/utils/firebaseConfig'
+import { signOut, onAuthStateChanged } from 'firebase/auth'
+import { PiSignOutLight } from 'react-icons/pi'
+import { getColorLevel, redColor, whiteColor } from '@/variables/variables'
 import ChatBox from '@/app/chat/ChatBox'
 import ChatTextArea from '@/app/chat/ChatTextArea'
-import { firebaseAuth } from '@/utils/firebaseConfig'
-import SignIn from '@/components/layouts/SignIn'
-import { signOut, onAuthStateChanged } from 'firebase/auth'
-import ChatLoading from './ChatLoading'
+import ChatSignIn from '@/app/chat/ChatSignIn'
+import ChatLoading from '@/app/chat/ChatLoading'
 import Button from '@/components/forms/Button'
-import { PiSignOutLight } from 'react-icons/pi'
-import { getColorLevel, mainColor, redColor, whiteColor } from '@/variables/variables'
+
 
 const Chat: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
@@ -47,7 +48,7 @@ const Chat: FC = () => {
                             <ChatTextArea />
                         </>
                     ) : (
-                        <SignIn />
+                        <ChatSignIn />
                     )}
                 </>
             )}

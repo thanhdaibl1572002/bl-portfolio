@@ -1,14 +1,13 @@
 import { FC, memo } from 'react'
-import styles from '@/components/layouts/signin.module.sass'
+import styles from '@/app/chat/chatsignin.module.sass'
 import { useAppSelector } from '@/redux'
-import Button from '../forms/Button'
+import Button from '../../components/forms/Button'
 import { FcGoogle } from 'react-icons/fc'
 import { darkColor, getColorLevel, mainColor, whiteColor } from '@/variables/variables'
 import { PiUserCircleLight } from 'react-icons/pi'
 import { googleSignIn } from '@/utils/firebaseConfig'
 
-
-const SignIn: FC = () => {
+const ChatSignIn: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
     return (
         <div className={styles._container}>
@@ -46,4 +45,4 @@ const SignIn: FC = () => {
     )
 }
 
-export default memo(SignIn)
+export default memo(ChatSignIn)
