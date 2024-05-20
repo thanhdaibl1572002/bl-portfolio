@@ -12,7 +12,6 @@ import ChatSignIn from '@/app/chat/ChatSignIn'
 import ChatLoading from '@/app/chat/ChatLoading'
 import Button from '@/components/forms/Button'
 
-
 const Chat: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
