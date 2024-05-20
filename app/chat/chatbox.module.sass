@@ -12,8 +12,13 @@
     background: get-color-level($main-color, 5)
     @media ( max-width: 500px )
         border-radius: 0
-        padding: 80px 15px 60px 15px
-        height: 100vh
+        padding: 15px
+        position: fixed
+        height: calc( 100% - 70px - 70px )
+        top: 70px
+        bottom: 70px
+        left: 0
+        right: 0
     ._group
         width: 100%
         flex-direction: column
