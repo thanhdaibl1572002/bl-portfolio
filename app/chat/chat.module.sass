@@ -9,6 +9,7 @@
     padding: 20px   
     row-gap: 20px
     flex-direction: column
+    position: relative
     @media ( max-width: 900px )
         width: 100%
     @media ( max-width: 500px )
@@ -16,6 +17,14 @@
         padding: 0
         height: 100vh
         row-gap: 15px
+    ._sign__out
+        position: absolute
+        z-index: 99
+        top: 30px
+        right: 30px
+        @media ( max-width: 500px )
+            top: 80px
+            right: 10px
 ._container__light
     background: $white-color
 
