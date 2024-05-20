@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { VscClose, VscGithubAlt } from 'react-icons/vsc'
 import { PiMessengerLogoLight } from 'react-icons/pi'
 import { SlSocialFacebook } from 'react-icons/sl'
+import { AiOutlineThunderbolt } from 'react-icons/ai'
 
 const Introduction: FC = ({ }) => {
     const { theme } = useAppSelector(state => state.theme)
@@ -28,12 +29,12 @@ const Introduction: FC = ({ }) => {
                 <Image width={300} height={300} src='/avatar.png' alt='' />
             </div>
             <div className={styles._info}>
-                <h2>👋 Trương Thành Đại 👋</h2>
+                <h2>Trương Thành Đại</h2>
                 <ul>
-                    <li><span>&#x25CF;</span> Sinh viên K20</li>
-                    <li><span>&#x25CF;</span> Trường đại học Sài Gòn</li>
-                    <li><span>&#x25CF;</span> Frontend Deverloper (React/Next.js)</li>
-                    <li><span>&#x25CF;</span> Backend Deverloper (Express/Nest.js)</li>
+                    <li><AiOutlineThunderbolt /> Sinh viên K20</li>
+                    <li><AiOutlineThunderbolt /> Trường đại học Sài Gòn</li>
+                    <li><AiOutlineThunderbolt /> Frontend Deverloper (React/Next.js)</li>
+                    <li><AiOutlineThunderbolt /> Backend Deverloper (Express/Nest.js)</li>
                 </ul>
             </div>
             <div className={styles._social}>
