@@ -24,7 +24,7 @@ export const googleSignIn = async (): Promise<boolean> => {
     if (!result) throw new Error('Google Auth Error: Không nhận được kết quả.')
     const credential = GoogleAuthProvider.credentialFromResult(result)
     if (!credential) throw new Error('Google Auth Error: Không thể xác thực.')
-    const signInResponse = await axios.post(
+    await axios.post(
       `${process.env.SERVER_URL as string}/auth/sign-in`, 
       {
         email: result.user.email,
