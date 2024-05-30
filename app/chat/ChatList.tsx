@@ -37,8 +37,8 @@ const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> =
                         <input placeholder='Tìm kiếm cuộc trò chuyện' />
                         <Button
                             className={styles._sign__out}
-                            width={40}
-                            height={40}
+                            width={38}
+                            height={38}
                             icon={<PiMagnifyingGlassLight />}
                             iconSize={22}
                             iconColor={mainColor}
