@@ -28,7 +28,7 @@ const Chat: FC = () => {
         if (!user || user.email !== process.env.ADMIN_EMAIL) {
             setIsLoading(false)
         } else {
-            navigation.push('/chat/1')
+            navigation.push('/chat/admin')
         }
     })
 
