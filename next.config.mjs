@@ -10,7 +10,6 @@ const nextConfig = {
         APP_ID: process.env.APP_ID,
         MEASUREMENT_ID: process.env.MEASUREMENT_ID,
         SERVER_URL: process.env.SERVER_URL,
-        BL_FOLIO_CONVERSATION_ID_KEY: process.env.BL_FOLIO_CONVERSATION_ID_KEY
     },
 };
 
