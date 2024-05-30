@@ -14,6 +14,40 @@ import { socket } from '@/utils/socket'
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 
+const sampleConversations = [
+    {
+        conversationId: '1',
+        senderDisplayName: "Alice",
+        senderPhotoURL: "/message.jpeg",
+        lastMessage: "Hi there!",
+        unreadCount: 2,
+    },
+    {
+        conversationId: '2',
+        senderDisplayName: "Bob",
+        senderPhotoURL: "/message.jpeg",
+        lastMessage: "See you later!",
+    },
+    {
+        conversationId: '3',
+        senderDisplayName: "Charlie",
+        senderPhotoURL: "/message.jpeg",
+        lastMessage: "Let's meet up tomorrow",
+        unreadCount: 1,
+    },
+    {
+        conversationId: '4',
+        senderDisplayName: "David",
+        senderPhotoURL: "/message.jpeg",
+        lastMessage: "What's up?",
+    },
+    {
+        conversationId: '5',
+        senderDisplayName: "Eve",
+        senderPhotoURL: "/message.jpeg",
+        lastMessage: "I'm on my way",
+    },
+]
 
 const ChatList = lazy(() => import('@/app/chat/ChatList'))
 
@@ -117,7 +151,7 @@ const ChatAdmin: FC = () => {
                                 />
                             </>
                         )}
-                        <ChatList ref={chatListContainerRef} />
+                        <ChatList ref={chatListContainerRef} conversations={sampleConversations} />
                     </>
                 )}
             </>

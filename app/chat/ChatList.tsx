@@ -6,11 +6,24 @@ import Link from 'next/link'
 import Button from '@/components/forms/Button'
 import { getColorLevel, mainColor, whiteColor } from '@/variables/variables'
 import { PiMagnifyingGlassLight } from 'react-icons/pi'
+import { useParams } from 'next/navigation'
 
-interface IChatListProps { }
+interface IChatListProps { 
+    conversations: Array<{
+        conversationId: string
+        senderDisplayName: string
+        senderPhotoURL: string
+        lastMessage: string
+        unreadCount?: number
+    }>    
+}
 
-const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> = (props, ref) => {
+const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> = ({
+    conversations
+}, ref) => {
     const { theme } = useAppSelector(state => state.theme)
+    const params = useParams()
+
     const chatListContainerRef = useRef<HTMLDivElement>(null)
 
     const handleCloseChatList = (): void => {
@@ -32,7 +45,7 @@ const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> =
             <div className={styles._close__chat__list} onClick={handleCloseChatList}></div>
             <div className={styles._content}>
                 <div className={styles._tool}>
-                    <strong>Tin nhắn (20)</strong>
+                    <strong>Cuộc trò chuyện (20)</strong>
                     <div className={styles._search}>
                         <input placeholder='Tìm kiếm cuộc trò chuyện' />
                         <Button
@@ -50,73 +63,21 @@ const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> =
                     </div>
                 </div>
                 <ul className={styles._list}>
-                    <li className={styles._unread}>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                            <span>10</span>
-                        </Link>
-                    </li>
-                    <li className={styles._active}>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'#'}>
-                            <Image width={40} height={40} src={'/message.jpeg'} alt='' />
-                            <strong>Trương Thành Đại <p>Xin chào, tôi tên là...</p></strong>
-                        </Link>
-                    </li>
+                    {conversations.map((conversation) => (
+                        <li
+                            key={conversation.conversationId}
+                            className={`${params.conversationId === conversation.conversationId ? styles._active : ''} ${conversation.unreadCount ? styles._unread : ''}`}
+                        >
+                            <Link href={`/chat/${conversation.conversationId}`}>
+                                <Image width={40} height={40} src={conversation.senderPhotoURL} alt='' />
+                                <strong>
+                                    {conversation.senderDisplayName}
+                                    <p>{conversation.lastMessage}</p>
+                                </strong>
+                                {conversation.unreadCount && <span>{conversation.unreadCount}</span>}
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
