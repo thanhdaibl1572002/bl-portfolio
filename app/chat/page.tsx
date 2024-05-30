@@ -1,6 +1,6 @@
 'use client'
 import { FC, useState } from 'react'
-import styles from '@/app/chat/chat.module.sass'
+import styles from '@/app/chat/page.module.sass'
 import { useAppSelector } from '@/redux'
 import { firebaseAuth } from '@/utils/firebase'
 import { onAuthStateChanged, signOut } from 'firebase/auth'

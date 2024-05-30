@@ -1,7 +1,7 @@
 import { FC, memo } from 'react'
 import styles from '@/app/chat/chatsignin.module.sass'
 import { useAppSelector } from '@/redux'
-import Button from '../../components/forms/Button'
+import Button from '@/components/forms/Button'
 import { FcGoogle } from 'react-icons/fc'
 import { darkColor, getColorLevel, mainColor, whiteColor } from '@/variables/variables'
 import { googleSignIn } from '@/utils/firebase'

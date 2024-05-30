@@ -2,14 +2,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 import { FC, memo } from 'react'
-import styles from '@/app/chat/message.module.sass'
+import styles from '@/app/chat/chatmessage.module.sass'
 import { useAppSelector } from '@/redux'
 import { IoArrowUndoOutline, IoRefreshOutline } from 'react-icons/io5'
 import { Image as LightBoxImage } from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
 import { mainColor } from '@/variables/variables'
 
-interface IMessageProps {
+interface IChatMessageProps {
     role: 'sender' | 'receiver'
     type: 'text' | 'image'
     text?: string
@@ -35,7 +35,7 @@ const ReactionIcons: FC = () => (
     </ul>
 )
 
-const Message: FC<IMessageProps> = ({
+const ChatMessage: FC<IChatMessageProps> = ({
     role,
     text,
     type,
@@ -101,4 +101,4 @@ const Message: FC<IMessageProps> = ({
     )
 }
 
-export default memo(Message)
+export default memo(ChatMessage)

@@ -7,7 +7,8 @@
     border-radius: 10px
     padding: 20px
     width: 350px
-    height: 600px
+    height: calc( 100vh - 82px - 20px - 20px - 20px )
+    position: relative
     @media ( max-width: 900px )
         width: 100%
     @media ( max-width: 500px )
@@ -54,8 +55,11 @@
                     color: $main-color
                     font-size: 20px
     ._social
-        column-gap: 8px
-        justify-content: center
+        position: absolute
+        flex-direction: column
+        row-gap: 8px
+        left: 30px
+        top: 30px
 
 ._container__light
     background: $white-color
