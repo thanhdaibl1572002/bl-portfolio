@@ -5,7 +5,6 @@ import { Provider, store, useAppSelector } from '@/redux/index'
 import i18n, { I18nextProvider } from '@/languages'
 import { darkColor, getColorLevel, mainColor } from '@/variables/variables'
 import Header from '@/components/layouts/Header'
-import Footer from '@/components/layouts/Footer'
 import Introduction from '@/components/layouts/Introduction'
 
 interface IRootBodyProps {
@@ -21,7 +20,6 @@ const RootBody: FC<IRootBodyProps> = ({ children }) => {
         <Introduction />
         {children}
       </main>
-      <Footer />
     </body>
   )
 }

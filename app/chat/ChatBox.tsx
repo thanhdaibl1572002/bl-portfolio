@@ -40,17 +40,17 @@ const ChatBox: FC<IChatBoxProps> = ({
             </div>
             <div className={styles._group}>
                 <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='receiver' emotion='❤️'/>
+                <ChatMessage type='image' imageSrc='/message.jpeg' role='receiver' emotion='❤️' />
             </div>
             <div className={styles._group}>
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='sender' emotion='❤️'/>
+                <ChatMessage type='image' imageSrc='/message.jpeg' role='sender' emotion='❤️' />
             </div>
             <div className={styles._group}>
-                <ChatMessage replyText='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' type='text' text='Đây là tin nhắn có phản hồi' role='sender' emotion='❤️'/>
+                <ChatMessage replyText='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' type='text' text='Đây là tin nhắn có phản hồi' role='sender' emotion='❤️' />
             </div>
             <div className={styles._group}>
                 <ChatMessage replyText='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' type='text' text='Đây là tin nhắn có phản hồi' role='receiver' />
-                <ChatMessage replyText='Wow, trông rất ấn tượng! Bạn có thể chia sẻ thêm chi tiết về dự án này không?' type='text' text='Đây là tin nhắn có phản hồi' role='receiver' emotion='❤️'/>
+                <ChatMessage replyText='Wow, trông rất ấn tượng! Bạn có thể chia sẻ thêm chi tiết về dự án này không?' type='text' text='Đây là tin nhắn có phản hồi' role='receiver' emotion='❤️' />
             </div>
             <div className={styles._group}>
                 <ChatMessage type='text' text='Chào' role='sender' emotion='❤️' />

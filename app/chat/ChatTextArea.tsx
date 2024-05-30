@@ -12,6 +12,27 @@ const ChatTextArea: FC = () => {
 
     useEffect(() => {
         socket.emit('updateSocketId', { email: firebaseAuth.currentUser?.email })
+        return () => {
+            socket.off('updateSocketId')
+        }
+    }, [])
+
+    useEffect(() => {
+        socket.on('receiveUser', (data) => {
+            console.log(data)
+        })
+        return () => {
+            socket.off('receiveUser')
+        }
+    }, [])
+
+    useEffect(() => {
+        socket.on('receiveAdmin', (data) => {
+            console.log(data)
+        })
+        return () => {
+            socket.off('receiveAdmin')
+        }
     }, [])
 
     const [messageText, setMessageText] = useState<string>('')
@@ -21,7 +42,13 @@ const ChatTextArea: FC = () => {
     }
 
     const handleSendMessageText = async (): Promise<void> => {
-
+        if (!messageText) return
+        if (firebaseAuth.currentUser?.email === process.env.ADMIN_EMAIL) {
+            socket.emit('sendToUser', { message: messageText, email: 'thanhdai11733621@gmail.com' })
+        } else {
+            socket.emit('sendToAdmin', { message: messageText, email: firebaseAuth.currentUser?.email })
+        }
+        setMessageText('')
     }
 
     return (

@@ -1,4 +1,4 @@
-@import ../../variables/variables
+@import ../../../variables/variables
 
 ._container__light,
 ._container__dark  
@@ -17,7 +17,8 @@
         padding: 0
         height: 100vh
         row-gap: 0
-    ._sign__out
+    ._sign__out,
+    ._open__chat__list
         position: absolute
         z-index: 99
     ._sign__out
@@ -26,6 +27,13 @@
         @media ( max-width: 500px )
             top: 80px
             right: 10px
+    ._open__chat__list
+        top: 30px
+        right: 70px
+        @media ( max-width: 500px )
+            top: 80px
+            right: 50px
+
 ._container__light
     background: $white-color
 
