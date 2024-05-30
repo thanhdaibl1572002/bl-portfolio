@@ -11,46 +11,82 @@
     opacity: 0
     visibility: hidden
     transition: all 0.2s
-    ul
-        position: absolute
+    ._content
         width: 300px
         height: 100%
-        top: 0
-        left: 0
         flex-direction: column
-        row-gap: 15px
+        row-gap: 20px
+        z-index: 1
         padding: 20px 15px
-        li
-            &:nth-child(1)
-                h3
-                    font-size: 17px
-                    font-weight: 500
-                    text-transform: uppercase
-        li 
-            border-radius: 5px
-            overflow: hidden
-            a
+        ._tool
+            width: 100%
+            height: 71px
+            flex-direction: column
+            row-gap: 10px
+            strong
+                font-size: 17px
+                font-weight: 500
+                text-transform: uppercase
+            ._search
                 width: 100%
-                align-items: center
-                column-gap: 8px
-                padding: 10px 5px
-                cursor: pointer
-                transition: 0.1s
-                img
-                    border-radius: 50%
-                strong
-                    justify-content: center
-                    flex-direction: column
-                    row-gap: 5px
-                    font-size: 14px
-                    font-weight: 500
+                column-gap: 5px
+                input
+                    width: calc( 100% - 45px )
+                    height: 40px
+                    border: 1px solid get-color-level($main-color, 10)
+                    border-radius: 5px
+                    padding: 0 10px
+                    font-size: 14px 
+                    &::placeholder
+                    font-size: 13.5px 
+                    &:focus
+                        border: 1px solid $main-color
+        ._list
+            width: 100%
+            height: calc( 100% - 91px )
+            overflow-y: scroll
+            flex-direction: column
+            row-gap: 15px
+            li 
+                border-radius: 5px
+                overflow: hidden
+                min-height: 60px
+                a
+                    width: 100%
+                    align-items: center
+                    column-gap: 8px
+                    padding: 10px 8px
+                    cursor: pointer
+                    transition: 0.1s
+                    position: relative
+                    img
+                        border-radius: 50%
+                    strong
+                        justify-content: center
+                        flex-direction: column
+                        row-gap: 5px
+                        font-size: 14px
+                        font-weight: 500
+                        p
+                            font-size: 12.5px
+                            font-weight: 400
+                    span
+                        position: absolute
+                        right: 8px
+                        font-size: 9.5px
+                        font-weight: 500
+                        background: $main-color
+                        color: $white-color
+                        width: 15px
+                        height: 15px
+                        justify-content: center
+                        align-items: center
+                        border-radius: 50%
+
+            ._unread
+                a
                     p
-                        font-size: 12.5px
-                        font-weight: 400
-        ._unread
-            a
-                p
-                    font-weight: 500
+                        font-weight: 500
                     
     ._close__chat__list
         width: 100%
@@ -60,49 +96,67 @@
         left: 0
 
 ._container__light
-    ul
+    ._content
         background: $white-color
-        li
-            &:nth-child(1)
-                h3
-                    color: $black-color
-            a
-                &:hover
-                    background: get-color-level($main-color, 5)
-                strong
-                    color: $black-color
-                p
+        ._tool
+            strong
+                color: $black-color
+            input
+                background: $white-color
+                color: $black-color
+                &::placeholder
                     color: get-color-level($black-color, 50)
-        ._unread
-            a
-                p
-                    color: $black-color
-        ._active
-            background: get-color-level($main-color, 7)
+        ._list
+            li
+                &:nth-child(1)
+                    h3
+                        color: $black-color
+                a
+                    &:hover
+                        background: get-color-level($main-color, 5)
+                    strong
+                        color: $black-color
+                    p
+                        color: get-color-level($black-color, 50)
+            ._unread
+                a
+                    p
+                        color: $black-color
+            ._active
+                background: get-color-level($main-color, 7)
 
     ._close__chat__list
         background: get-color-level($black-color, 5)
 
 ._container__dark  
-    ul
+    ._content
         background: $black-color
-        li
-            &:nth-child(1)
-                h3
-                    color: $white-color
-            a
-                &:hover
-                    background: get-color-level($main-color, 15)
-                strong
-                    color: $white-color
-                p
+        ._tool
+            strong
+                color: $white-color
+            input
+                background: $dark-color
+                color: $white-color
+                &::placeholder
                     color: get-color-level($white-color, 50)
-        ._unread
-            a
-                p
-                    color: $white-color
-        ._active
-            background: get-color-level($main-color, 20)
+        ._list
+            li
+                &:nth-child(1)
+                    h3
+                        color: $white-color
+                a
+                    &:hover
+                        background: get-color-level($main-color, 15)
+                    strong
+                        color: $white-color
+                    p
+                        color: get-color-level($white-color, 50)
+            ._unread
+                a
+                    p
+                        color: $white-color
+            ._active
+                background: get-color-level($main-color, 20)
 
     ._close__chat__list
         background: get-color-level($white-color, 10)
