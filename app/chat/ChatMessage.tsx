@@ -8,6 +8,8 @@ import { IoArrowUndoOutline, IoRefreshOutline } from 'react-icons/io5'
 import { Image as LightBoxImage } from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
 import { mainColor } from '@/variables/variables'
+import { formatDateTime } from '@/utils/format'
+import Image from 'next/image'
 
 interface IChatMessageProps {
     role: 'sender' | 'receiver'
@@ -20,6 +22,10 @@ interface IChatMessageProps {
     replyImageSrc?: string
     replyImageAlt?: string
     recall?: boolean
+    createdAt: string
+    nameVisible?: string
+    isNameVisible: boolean,
+    avatarSrc?: string
 }
 
 const ReactionIcons: FC = () => (
@@ -46,8 +52,14 @@ const ChatMessage: FC<IChatMessageProps> = ({
     replyImageSrc,
     replyImageAlt,
     recall,
+    createdAt,
+    nameVisible,
+    isNameVisible,
+    avatarSrc,
 }) => {
     const { theme } = useAppSelector(state => state.theme)
+
+    const { formattedDate, formattedTime } = formatDateTime(createdAt)
 
     const renderReply = () => (
         <>
@@ -68,7 +80,7 @@ const ChatMessage: FC<IChatMessageProps> = ({
                     {text}
                     <ReactionIcons />
                     {emotion && <div className={styles._emotion}>{emotion}</div>}
-                    <span className={styles._timestamp}><span>10:30</span> 19/05/2024</span>
+                    <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
                 </div>
             )
         }
@@ -78,7 +90,7 @@ const ChatMessage: FC<IChatMessageProps> = ({
                     <LightBoxImage image={{ src: imageSrc, title: imageAlt }} iconColor={mainColor} />
                     <ReactionIcons />
                     {emotion && <div className={styles._emotion}>{emotion}</div>}
-                    <span className={styles._timestamp}><span>10:30</span> 19/05/2024</span>
+                    <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
                 </div>
             )
         }
@@ -87,6 +99,11 @@ const ChatMessage: FC<IChatMessageProps> = ({
 
     return (
         <div className={styles[`_container__${theme}__${role}`]}>
+            {role === 'receiver' && isNameVisible && (
+                <strong>
+                    <Image width={28} height={28} src={avatarSrc ?? '/message.jpeg'} alt='' /> {nameVisible ?? 'Trương Thành Đại'}
+                </strong>
+            )}
             {recall ? (
                 <div className={styles._message}>
                     <div className={styles._recall__text}>Tin nhắn đã bị thu hồi</div>

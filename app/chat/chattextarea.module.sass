@@ -6,7 +6,7 @@
     height: 40px
     justify-content: space-between
     align-items: center
-    column-gap: 10px
+    column-gap: 5px
     position: relative
     @media ( max-width: 500px )
         height: auto
@@ -16,23 +16,28 @@
         left: 0
         z-index: 101
     textarea
-        width: calc( 100% - 100px )
-        height: 40px
-        border-radius: 5px
+        width: calc( 100% - (28px * 3 + 5px * 3) )
         resize: none
-        padding: 10px 60px 10px 15px
+        padding: 10px
         font-size: 14px
+        line-height: 20px
         &:focus
-            border: 1px solid $main-color
+            border-bottom: 1px solid $main-color
         &::placeholder
-           font-size: 14px
-           font-weight: 300
+        font-size: 14px
+    svg
+        font-size: 28px
+        color: $main-color
+        cursor: pointer
+        transition: 0.15s
+        &:hover
+            transform: scale(1.05)
 
 ._container__light
     @media ( max-width: 500px )
         background: $white-color
     textarea
-        border: 1px solid get-color-level($main-color, 10)
+        border-bottom: 1px solid get-color-level($main-color, 10)
         background: $white-color
         color: $dark-color
         &::placeholder
@@ -42,8 +47,8 @@
     @media ( max-width: 500px )
         background: $black-color 
     textarea
-        border: 1px solid get-color-level($main-color, 10)
-        background: $dark-color
+        border-bottom: 1px solid get-color-level($white-color, 10)
+        background: $black-color
         color: $white-color
         &::placeholder
             color: get-color-level($white-color, 50)

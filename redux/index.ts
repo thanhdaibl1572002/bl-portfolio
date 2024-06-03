@@ -7,7 +7,7 @@ import themeReducer from '@/redux/slices/themeSlice'
 
 const store = configureStore({
   reducer: {
-    theme: themeReducer,
+    theme: themeReducer
   },
 })
 

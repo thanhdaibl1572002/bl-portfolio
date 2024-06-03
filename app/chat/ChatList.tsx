@@ -1,4 +1,4 @@
-import { useRef, forwardRef, useImperativeHandle, ForwardRefRenderFunction } from 'react'
+import { useRef, forwardRef, useImperativeHandle, ForwardRefRenderFunction, useEffect, useState, memo } from 'react'
 import styles from '@/app/chat/chatlist.module.sass'
 import { useAppSelector } from '@/redux'
 import Image from 'next/image'
@@ -7,22 +7,25 @@ import Button from '@/components/forms/Button'
 import { getColorLevel, mainColor, whiteColor } from '@/variables/variables'
 import { PiMagnifyingGlassLight } from 'react-icons/pi'
 import { useParams } from 'next/navigation'
+import { socket } from '@/utils/socket'
+import axios from 'axios'
+import { firebaseAuth } from '@/utils/firebase'
 
-interface IChatListProps { 
-    conversations: Array<{
-        conversationId: string
-        senderDisplayName: string
-        senderPhotoURL: string
-        lastMessage: string
-        unreadCount?: number
-    }>    
+interface IChat {
+    userId: string
+    displayName: string
+    photoURL: string
+    lastMessage: string
+    unreadCount?: number
 }
 
-const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> = ({
-    conversations
-}, ref) => {
+interface IChatListProps { }
+
+const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> = ({}, ref) => {
     const { theme } = useAppSelector(state => state.theme)
     const params = useParams()
+
+    const [chats, setChats] = useState<Array<IChat>>([])
 
     const chatListContainerRef = useRef<HTMLDivElement>(null)
 
@@ -40,16 +43,36 @@ const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> =
         },
     }), [])
 
+    useEffect(() => {
+        (async (): Promise<void> => {
+            try {
+                const response = await axios.get(
+                    `${process.env.SERVER_URL as string}/chat/get-chat-list`, 
+                    { headers: { Authorization: `Bearer ${await firebaseAuth.currentUser!.getIdToken(true)}` } }
+                )
+                setChats(response.data.data)
+            } catch (error) {
+                setChats([])
+            }
+        })()
+    }, [])
+
+    useEffect(() => {
+        socket.on('getNewChat', chat => setChats(prevChat => [chat, ...prevChat]))
+        return () => {
+            socket.off('getNewChat')
+        }
+    }, [])
+
     return (
         <div className={styles[`_container__${theme}`]} ref={chatListContainerRef}>
             <div className={styles._close__chat__list} onClick={handleCloseChatList}></div>
             <div className={styles._content}>
                 <div className={styles._tool}>
-                    <strong>Cuộc trò chuyện (20)</strong>
+                    <strong>Cuộc trò chuyện ({chats.length})</strong>
                     <div className={styles._search}>
                         <input placeholder='Tìm kiếm cuộc trò chuyện' />
                         <Button
-                            className={styles._sign__out}
                             width={40}
                             height={40}
                             icon={<PiMagnifyingGlassLight />}
@@ -63,25 +86,28 @@ const ChatList: ForwardRefRenderFunction<{ open: () => void }, IChatListProps> =
                     </div>
                 </div>
                 <ul className={styles._list}>
-                    {conversations.map((conversation) => (
+                    {chats.length > 0 ? chats.map((chat) => (
                         <li
-                            key={conversation.conversationId}
-                            className={`${params.conversationId === conversation.conversationId ? styles._active : ''} ${conversation.unreadCount ? styles._unread : ''}`}
+                            key={chat.userId}
+                            className={`${params.userId === chat.userId ? styles._active : ''} ${chat.unreadCount ? styles._unread : ''}`}
                         >
-                            <Link href={`/chat/${conversation.conversationId}`}>
-                                <Image width={40} height={40} src={conversation.senderPhotoURL} alt='' />
+                            <Link href={`/chat/${chat.userId}`}>
+                                <Image width={40} height={40} src={chat.photoURL} alt='' />
                                 <strong>
-                                    {conversation.senderDisplayName}
-                                    <p>{conversation.lastMessage}</p>
+                                    {chat.displayName}
+                                    {chat.lastMessage && <p>{chat.lastMessage.length > 25 ? chat.lastMessage?.substring(0, 25) + '...' : chat.lastMessage}</p> }
+                                   
                                 </strong>
-                                {conversation.unreadCount && <span>{conversation.unreadCount}</span>}
+                                {chat.unreadCount ? <span>{chat.unreadCount}</span> : null}
                             </Link>
                         </li>
-                    ))}
+                    )) : (
+                        <>Trống</>
+                    )}
                 </ul>
             </div>
         </div>
     )
 }
 
-export default forwardRef(ChatList)
+export default memo(forwardRef(ChatList))

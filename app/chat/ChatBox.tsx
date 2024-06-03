@@ -1,72 +1,111 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styles from '@/app/chat/chatbox.module.sass'
 import { useAppSelector } from '@/redux'
 import ChatMessage from '@/app/chat/ChatMessage'
-import Image from 'next/image'
+import ChatWelcome from '@/app/chat/ChatWelcome'
+import { useParams } from 'next/navigation'
+import { firebaseAuth } from '@/utils/firebase'
+import axios from 'axios'
+import { socket } from '@/utils/socket'
+import { PiChatTeardropSlashThin } from 'react-icons/pi'
 
-interface IChatBoxProps {
-
+interface IMessage {
+    _id: string
+    user: {
+        _id: string
+        userId: string
+        displayName: string
+        photoURL: string
+    }
+    from: string
+    type: 'text' | 'image'
+    content: string
+    emotion: string
+    replyTo: Object | null
+    recall: boolean
+    unread: boolean
+    createdAt: string
+    updatedAt: string
+    __v?: number
 }
 
-const ChatBox: FC<IChatBoxProps> = ({
-
-}) => {
+const ChatBox: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
+    const params = useParams()
+
+    const [messages, setMessages] = useState<Array<IMessage>>([])
+
+    const isAdmin = firebaseAuth.currentUser?.uid === process.env.ADMIN_ID
+
+    const groupedMessages: Array<Array<IMessage>> = messages.reduce((acc: Array<Array<IMessage>>, message: IMessage) => {
+        const lastGroup = acc[acc.length - 1]
+        if (lastGroup && lastGroup[lastGroup.length - 1].from === message.from) {
+            lastGroup.push(message)
+        } else {
+            acc.push([message])
+        }
+        return acc
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.SERVER_URL as string}/message/get-all-message-by-user-id/${isAdmin ? params.userId : firebaseAuth.currentUser?.uid}`,
+                    { headers: { Authorization: `Bearer ${await firebaseAuth.currentUser?.getIdToken(true)}` } }
+                )
+                const messages = response.data.data
+                setMessages(messages)
+            } catch (error) {
+                setMessages([])
+            }
+        })()
+    }, [isAdmin, params.userId])
+
+    useEffect(() => {
+        const handleReceiveMessage = (message: IMessage) => {
+            setMessages(prevMessages => [...prevMessages, message])
+        }
+        if (isAdmin) socket.on('receiveMessage', handleReceiveMessage)    
+        else socket.on('receiveMessage', handleReceiveMessage)
+        return () => {
+            if (isAdmin) socket.off('receiveMessage', handleReceiveMessage)
+            else socket.off('receiveMessage', handleReceiveMessage)
+        }
+    }, [isAdmin])
+
     return (
         <div className={styles[`_container__${theme}`]}>
-            <div className={styles._group}>
-                <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <ChatMessage type='text' text='Xin chào, tôi tên là Trương Thành Đại. Bạn có muốn xem các dự án cá nhân của tôi? 😄' role='receiver' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage type='text' text='Chào Đại! Tất nhiên, mình rất muốn xem.' role='sender' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <ChatMessage type='text' text='Đây là hình ảnh dự án mới nhất của mình.' role='receiver' />
-                <ChatMessage type='text' text='Bạn có thể xem nó tại đây.' role='receiver' />
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='receiver' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='sender' />
-            </div>
-            <div className={styles._group}>
-                <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <ChatMessage type='text' text='Wow, trông rất ấn tượng! Bạn có thể chia sẻ thêm chi tiết về dự án này không?' role='receiver' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage type='text' text='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' role='sender' />
-                <ChatMessage type='text' text='Nghe thú vị quá! Mình cũng đang làm việc với một dự án AI.' role='sender' />
-            </div>
-            <div className={styles._group}>
-                <strong><Image width={28} height={28} src={'/message.jpeg'} alt='' />Trương Thành Đại</strong>
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='receiver' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage type='image' imageSrc='/message.jpeg' role='sender' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage replyText='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' type='text' text='Đây là tin nhắn có phản hồi' role='sender' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage replyText='Cảm ơn! Đây là một dự án về trí tuệ nhân tạo.' type='text' text='Đây là tin nhắn có phản hồi' role='receiver' />
-                <ChatMessage replyText='Wow, trông rất ấn tượng! Bạn có thể chia sẻ thêm chi tiết về dự án này không?' type='text' text='Đây là tin nhắn có phản hồi' role='receiver' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage type='text' text='Chào' role='sender' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage replyImageSrc='/message.jpeg' role='sender' text='Bạn rất đẹp trai đấy!' type='text' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage replyImageSrc='/message.jpeg' role='sender' imageSrc='/message.jpeg' type='image' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage recall type='text' text='Chào' role='sender' emotion='❤️' />
-            </div>
-            <div className={styles._group}>
-                <ChatMessage recall type='text' text='Chào' role='receiver' emotion='❤️' />
-            </div>
+            {groupedMessages.length > 0 ? groupedMessages.map((group, index) => (
+                <div className={styles._group} key={index}>
+                    {group.map((message, index) => (
+                        <ChatMessage
+                            key={message._id}
+                            type={message.type}
+                            text={message.content}
+                            imageSrc={message.content}
+                            role={
+                                isAdmin 
+                                ? message.from === 'admin' ? 'sender' : 'receiver' 
+                                : message.from === 'admin' ? 'receiver' : 'sender'
+                            }
+                            emotion={message.emotion}
+                            replyText={''}
+                            recall={message.recall}
+                            createdAt={message.createdAt}
+                            isNameVisible={index === 0}
+                            nameVisible={isAdmin ? message.user.displayName : 'Trương Thành Đại BL'}
+                            avatarSrc={isAdmin ? message.user.photoURL : '/message.jpeg'}
+                        />
+                    ))}
+                </div>
+            )) : (
+                <ChatWelcome 
+                    icon={<PiChatTeardropSlashThin />}
+                    message={'Chưa có tin nhắn'}
+                    description={'Hãy gửi tin nhắn đầu tiên của bạn'}
+                />
+            )}
         </div>
     )
 }

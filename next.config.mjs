@@ -10,8 +10,11 @@ const nextConfig = {
         APP_ID: process.env.APP_ID,
         MEASUREMENT_ID: process.env.MEASUREMENT_ID,
         SERVER_URL: process.env.SERVER_URL,
-        ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+        ADMIN_ID: process.env.ADMIN_ID,
     },
-};
+    images: {
+        domains: ['lh3.googleusercontent.com'],
+    },
+}
 
-export default nextConfig;
+export default nextConfig

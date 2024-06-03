@@ -1,0 +1,97 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark
+    position: absolute
+    left: 45px
+    bottom: calc( 100% + 2px )
+    width: 280px
+    height: 300px
+    border-radius: 10px
+    padding: 10px
+    flex-direction: column
+    row-gap: 10px
+    display: none
+    @media ( max-width: 500px )
+        left: 10px
+        bottom: calc( 100% - 10px )
+    ._search
+        width: 100%
+        input
+            width: 100%
+            height: 38px
+            border: 1px solid get-color-level($main-color, 10)
+            border-radius: 5px
+            padding: 0 10px
+            font-size: 14px 
+            &::placeholder
+            font-size: 13.5px 
+            &:focus
+                border: 1px solid $main-color
+    ._tabs
+        flex-wrap: wrap
+        gap: 5px
+        li
+            width: calc( 260px / 9 - 5px / 6.65 )
+            height: calc( 260px / 9 )
+            cursor: pointer
+            border-radius: 3px
+            justify-content: center
+            align-items: center
+            svg
+                font-size: 22px
+        ._active
+            background: $main-gradient-color
+            svg
+                color: $white-color
+
+    ._title
+        font-size: 14px
+        font-weight: 500
+        text-transform: capitalize
+    ._items
+        flex-wrap: wrap
+        gap: 5px
+        max-height: 135px
+        overflow: scroll
+        li
+            cursor: pointer
+            font-size: 20px
+            width: calc( 260px / 9 - 5px / 6.65 )
+            height: calc( 260px / 9 )
+            transition: 0.1s
+            border-radius: 3px
+            justify-content: center
+            align-items: center
+            &:hover
+                background: get-color-level($main-color, 10)
+
+._container__light
+    background: $white-color
+    box-shadow: 0 0 5px 0 get-color-level($black-color, 10)
+    ._search
+        input
+            background: $white-color
+            color: $black-color
+            &::placeholder
+                color: get-color-level($black-color, 50)
+    ._title
+        color: $dark-color
+    ._tabs
+        li
+            background: get-color-level($main-color, 7)
+
+._container__dark  
+    background: $black-color
+    box-shadow: 0 0 5px 0 get-color-level($white-color, 5)
+    ._search
+        input
+            background: $dark-color
+            color: $white-color
+            &::placeholder
+                color: get-color-level($white-color, 50)
+    ._title
+        color: $white-color
+    ._tabs
+        li
+            background: get-color-level($main-color, 20)
