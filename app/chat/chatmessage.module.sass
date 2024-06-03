@@ -109,6 +109,19 @@
             img
                 border-radius: 5px
                 opacity: 0.5
+    ._urls
+        flex-direction: column
+        row-gap: 4px
+        a
+            width: fit-content
+            max-width: 100%
+            font-size: 13px
+            padding: 5px 8px
+            border-radius: 5px
+            align-items: center
+            column-gap: 3px
+            svg
+                font-size: 14px
         
 ._container__light__sender
     align-items: flex-end
@@ -131,6 +144,11 @@
         ._recall__text
             color: get-color-level($dark-color, 50)
             background: get-color-level($main-color, 10)
+    ._urls
+        align-items: flex-end
+        a
+            background: $white-color
+            color: $main-color
 
 ._container__light__receiver
     ._message
@@ -152,6 +170,11 @@
         ._recall__text
             color: get-color-level($dark-color, 50)
             background: get-color-level($main-color, 10)
+    ._urls
+        align-items: flex-start
+        a
+            background: $white-color
+            color: $main-color
 
 ._container__dark__sender
     align-items: flex-end
@@ -174,6 +197,11 @@
         ._recall__text
             color: get-color-level($white-color, 50)
             background: get-color-level($main-color, 5)
+    ._urls
+        align-items: flex-end
+        a
+            background: $dark-color
+            color: $main-color
 
 ._container__dark__receiver   
     ._message
@@ -195,3 +223,8 @@
         ._recall__text
             color: get-color-level($white-color, 50)
             background: get-color-level($main-color, 5)
+    ._urls
+        align-items: flex-start
+        a
+            background: $dark-color
+            color: $main-color

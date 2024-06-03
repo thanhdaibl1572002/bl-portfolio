@@ -8,16 +8,21 @@ interface IEmoji {
     emoji: string
 }
 
-interface IChatEmojiProps { }
+interface IChatEmojiProps {
+    onSelectEmoji: (emoji: string) => void
+}
 
-const ChatEmoji: ForwardRefRenderFunction<{ open: () => void }, IChatEmojiProps> = ({ }, ref) => {
+const ChatEmoji: ForwardRefRenderFunction<{ open: () => void }, IChatEmojiProps> = ({
+    onSelectEmoji
+}, ref) => {
     const { theme } = useAppSelector(state => state.theme)
 
     const [selectedIndex, setSelectdIndex] = useState<number>(0)
     const [searchTerm, setSearchTerm] = useState<string>('')
     const [filteredEmojiItems, setFilteredEmojiItems] = useState<Array<IEmoji>>([])
-
     const chatEmojiContainerRef = useRef<HTMLDivElement>(null)
+
+    console.log('ChatEmoji')
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -59,7 +64,14 @@ const ChatEmoji: ForwardRefRenderFunction<{ open: () => void }, IChatEmojiProps>
             {searchTerm ? (
                 <>
                     <ul className={styles._items}>
-                        {filteredEmojiItems.map((item: any, index: number) => <li key={index}>{item.emoji}</li>)}
+                        {filteredEmojiItems.map((item, index) => (
+                            <li
+                                key={index}
+                                onClick={() => onSelectEmoji(item.emoji)}
+                            >
+                                {item.emoji}
+                            </li>
+                        ))}
                     </ul>
                 </>
             ) : (
@@ -78,7 +90,12 @@ const ChatEmoji: ForwardRefRenderFunction<{ open: () => void }, IChatEmojiProps>
                     <strong className={styles._title}>{emojis[selectedIndex].title}</strong>
                     <ul className={styles._items}>
                         {emojis[selectedIndex].items.map((item: any, index: number) => (
-                            <li key={index}>{item.emoji}</li>
+                            <li
+                                key={index}
+                                onClick={() => onSelectEmoji(item.emoji)}
+                            >
+                                {item.emoji}
+                            </li>
                         ))}
                     </ul>
                 </>

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, lazy, memo, useRef, useState } from 'react'
+import { ChangeEvent, FC, lazy, memo, useCallback, useRef, useState } from 'react'
 import styles from '@/app/chat/chattextarea.module.sass'
 import { useAppSelector } from '@/redux'
 import { PiImageSquareLight, PiPaperPlaneRightFill } from 'react-icons/pi'
@@ -32,30 +32,46 @@ const ChatTextArea: FC = () => {
     const handleSendMessageText = async (): Promise<void> => {
         if (!messageText) return
         if (isAdmin) {
-            socket.emit('adminTextSendMessage', { 
-                userId: decodeURIComponent(params.userId as string), 
-                content: messageText, 
-                type: 'text' 
+            socket.emit('adminTextSendMessage', {
+                userId: decodeURIComponent(params.userId as string),
+                content: messageText,
+                type: 'text'
             })
         } else {
-            socket.emit('userSendTextMessage', { 
-                userId: firebaseAuth.currentUser?.uid, 
-                content: messageText, 
-                type: 'text' 
+            socket.emit('userSendTextMessage', {
+                userId: firebaseAuth.currentUser?.uid,
+                content: messageText,
+                type: 'text'
             })
         }
         setMessageText('')
     }
 
+    const handleSelectEmoji = (emoji: string) => {
+        if (textareaRef.current) {
+            const start = textareaRef.current.selectionStart
+            const end = textareaRef.current.selectionEnd
+            setMessageText(prevMessageText => {
+                return prevMessageText.substring(0, start) + emoji + prevMessageText.substring(end)
+            })
+            textareaRef.current.selectionStart = start + emoji.length
+            textareaRef.current.selectionEnd = start + emoji.length
+        }
+    }
+
     return (
         <div className={styles[`_container__${theme}`]}>
-            <ChatEmoji ref={chatEmojiContainerRef} />
-            <PiImageSquareLight />
-            <RiChatSmile2Fill 
+            <ChatEmoji
+                ref={chatEmojiContainerRef}
+                onSelectEmoji={useCallback(emoji => handleSelectEmoji(emoji), [])}
+            />
+            <PiImageSquareLight fontSize={28} />
+            <RiChatSmile2Fill
                 onClick={() => {
                     if (!chatEmojiContainerRef.current) return
                     chatEmojiContainerRef.current.open()
                 }}
+                fontSize={28}
             />
             <textarea
                 placeholder='Nhập vào tin nhắn của bạn'
@@ -66,6 +82,7 @@ const ChatTextArea: FC = () => {
             />
             <PiPaperPlaneRightFill
                 onClick={handleSendMessageText}
+                fontSize={30}
             />
         </div>
     )

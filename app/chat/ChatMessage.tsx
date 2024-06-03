@@ -10,6 +10,8 @@ import 'lightbox.js-react/dist/index.css'
 import { mainColor } from '@/variables/variables'
 import { formatDateTime } from '@/utils/format'
 import Image from 'next/image'
+import Link from 'next/link'
+import { PiArrowSquareOutLight } from 'react-icons/pi'
 
 interface IChatMessageProps {
     role: 'sender' | 'receiver'
@@ -61,6 +63,8 @@ const ChatMessage: FC<IChatMessageProps> = ({
 
     const { formattedDate, formattedTime } = formatDateTime(createdAt)
 
+    const URLs = text ? text.match(/(https?:\/\/[^\s]+)/g) : []
+
     const renderReply = () => (
         <>
             {replyText && <p className={styles._reply__text}>Trả lời: {replyText.length >= 80 ? `${replyText.substring(0, 80)}...` : replyText}</p>}
@@ -109,10 +113,17 @@ const ChatMessage: FC<IChatMessageProps> = ({
                     <div className={styles._recall__text}>Tin nhắn đã bị thu hồi</div>
                 </div>
             ) : (
-                <div className={styles._message}>
-                    {renderReply()}
-                    {renderContent()}
-                </div>
+                <>
+                    <div className={styles._message}>
+                        {renderReply()}
+                        {renderContent()}
+                    </div>
+                    <div className={styles._urls}>
+                        {URLs && URLs.length > 0 && URLs.map((url, index) => (
+                            <Link key={index} href={url} target='_blank'>{new URL(url).hostname} <PiArrowSquareOutLight /></Link>
+                        ))}
+                    </div>
+                </>
             )}
         </div>
     )
