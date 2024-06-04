@@ -1,14 +1,15 @@
 import { ChangeEvent, FC, lazy, memo, useCallback, useRef, useState, useId } from 'react'
 import styles from '@/app/chat/chattextarea.module.sass'
 import { useAppSelector } from '@/redux'
-import { PiPaperPlaneRightFill } from 'react-icons/pi'
+import { PiImageSquareLight, PiPaperPlaneRightFill } from 'react-icons/pi'
 import { firebaseAuth } from '@/utils/firebase'
 import { socket } from '@/utils/socket'
 import { useParams } from 'next/navigation'
 import { RiChatSmile2Fill } from 'react-icons/ri'
-import ChatImagePreview from './ChatImagePreview'
+import { mainColor } from '@/variables/variables'
 
 const ChatEmoji = lazy(() => import('@/app/chat/ChatEmoji'))
+const ChatImagePreview = lazy(() => import('@/app/chat/ChatImagePreview'))
 
 const ChatTextArea: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
@@ -68,11 +69,12 @@ const ChatTextArea: FC = () => {
             />
             <ChatImagePreview />
             <RiChatSmile2Fill
+                color={mainColor}
+                fontSize={28}
                 onClick={() => {
                     if (!chatEmojiContainerRef.current) return
                     chatEmojiContainerRef.current.open()
                 }}
-                fontSize={28}
             />
             <textarea
                 placeholder='Nhập vào tin nhắn của bạn'
@@ -82,6 +84,7 @@ const ChatTextArea: FC = () => {
                 ref={textareaRef}
             />
             <PiPaperPlaneRightFill
+                color={mainColor}
                 onClick={handleSendMessageText}
                 fontSize={30}
             />

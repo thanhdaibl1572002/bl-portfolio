@@ -22,13 +22,11 @@ const ChatEmoji: ForwardRefRenderFunction<{ open: () => void }, IChatEmojiProps>
     const [filteredEmojiItems, setFilteredEmojiItems] = useState<Array<IEmoji>>([])
     const chatEmojiContainerRef = useRef<HTMLDivElement>(null)
 
-    console.log('ChatEmoji')
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (chatEmojiContainerRef.current && !chatEmojiContainerRef.current.contains(event.target as Node)) {
-                chatEmojiContainerRef.current.style.display = 'none'
-            }
+            if (!chatEmojiContainerRef.current) return
+            if (chatEmojiContainerRef.current.contains(event.target as Node)) return
+            chatEmojiContainerRef.current.style.display = 'none'
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => {
