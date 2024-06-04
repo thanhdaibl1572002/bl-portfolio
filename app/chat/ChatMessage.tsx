@@ -12,12 +12,19 @@ import { formatDateTime } from '@/utils/format'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PiArrowSquareOutLight } from 'react-icons/pi'
+import { socket } from '@/utils/socket'
+import { firebaseAuth } from '@/utils/firebase'
+import { useParams } from 'next/navigation'
 
 interface IChatMessageProps {
+    messageId: string
     role: 'sender' | 'receiver'
     type: 'text' | 'image'
     text?: string
-    emotion?: string
+    emotions?: {
+        admin?: string
+        user?: string
+    }
     imageSrc?: string
     imageAlt?: string
     replyText?: string
@@ -30,24 +37,42 @@ interface IChatMessageProps {
     avatarSrc?: string
 }
 
-const ReactionIcons: FC = () => (
-    <ul className={styles._tool}>
-        <li>👍</li>
-        <li>❤️</li>
-        <li>😂</li>
-        <li>😮</li>
-        <li>😢</li>
-        <li>😡</li>
-        <li><IoArrowUndoOutline /></li>
-        <li><IoRefreshOutline /></li>
-    </ul>
-)
+const emojis = ['👍', '❤️', '😂', '😮', '😢', '😡']
+
+interface IEmojiProps {
+    messageId: string
+}
+
+const Emoji: FC<IEmojiProps> = memo(({ messageId }) => {
+    const userId = firebaseAuth.currentUser?.uid
+    const isAdmin = userId === process.env.ADMIN_ID
+    const params = useParams()
+    const handleUpdateEmotion = (emoji: string): void => {
+        socket.emit('updateEmotion', { 
+            userId: isAdmin ? decodeURIComponent(params.userId as string) : userId,
+            messageId: messageId, 
+            emotion: emoji, 
+            from: isAdmin ? 'admin' : userId, 
+        })
+    }
+    return (
+        <ul className={styles._emojis}>
+            {emojis.map((emoji, index) => (
+                <li key={index} onClick={() => handleUpdateEmotion(emoji)}>{emoji}</li>
+            ))}
+            <li><IoArrowUndoOutline /></li>
+            <li><IoRefreshOutline /></li>
+        </ul>
+    )
+})
+Emoji.displayName = 'Emoji'
 
 const ChatMessage: FC<IChatMessageProps> = ({
+    messageId,
     role,
     text,
     type,
-    emotion,
+    emotions,
     imageSrc,
     imageAlt,
     replyText,
@@ -65,6 +90,9 @@ const ChatMessage: FC<IChatMessageProps> = ({
 
     const URLs = text ? text.match(/(https?:\/\/[^\s]+)/g) : []
 
+    const userId = firebaseAuth.currentUser?.uid
+    const isAdmin = userId === process.env.ADMIN_ID
+
     const renderReply = () => (
         <>
             {replyText && <p className={styles._reply__text}>Trả lời: {replyText.length >= 80 ? `${replyText.substring(0, 80)}...` : replyText}</p>}
@@ -80,21 +108,38 @@ const ChatMessage: FC<IChatMessageProps> = ({
     const renderContent = () => {
         if (type === 'text' && text) {
             return (
-                <div className={styles._text}>
-                    {text}
-                    <ReactionIcons />
-                    {emotion && <div className={styles._emotion}>{emotion}</div>}
-                    <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
+                <div className={styles._text} style={{ marginBottom: emotions ? 15 : 0 }}>
+                    <div className={styles._tool}>
+                        {text}
+                        <Emoji messageId={messageId}/>
+                        <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
+                    </div>
+                    {emotions && (
+                        <ul className={styles._emotions}>
+                            {emotions.admin && <li>{emotions.admin} <span>{isAdmin ? 'Bạn' : 'QTV' }</span></li>}
+                            {emotions.user && <li>{emotions.user} <span>{isAdmin ? 'ND' : 'Bạn' }</span></li>}
+                        </ul>
+                    )}
                 </div>
             )
         }
         if (type === 'image' && imageSrc) {
             return (
-                <div className={styles._image}>
-                    <LightBoxImage image={{ src: imageSrc, title: imageAlt }} iconColor={mainColor} />
-                    <ReactionIcons />
-                    {emotion && <div className={styles._emotion}>{emotion}</div>}
-                    <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
+                <div className={styles._image} style={{ marginBottom: emotions ? 15 : 0 }}>
+                    <div className={styles._tool}>
+                        <LightBoxImage 
+                            image={{ src: `${process.env.SERVER_URL}/${imageSrc}`, title: imageAlt }} 
+                            iconColor={mainColor} 
+                        />
+                        <Emoji messageId={messageId}/>
+                        <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
+                    </div>
+                    {emotions && (
+                        <ul className={styles._emotions}>
+                            {emotions.admin && <li>{emotions.admin} <span>{isAdmin ? 'Bạn' : 'QTV' }</span></li>}
+                            {emotions.user && <li>{emotions.user} <span>{isAdmin ? 'ND' : 'Bạn' }</span></li>}
+                        </ul>
+                    )}
                 </div>
             )
         }
@@ -118,11 +163,13 @@ const ChatMessage: FC<IChatMessageProps> = ({
                         {renderReply()}
                         {renderContent()}
                     </div>
-                    <div className={styles._urls}>
-                        {URLs && URLs.length > 0 && URLs.map((url, index) => (
-                            <Link key={index} href={url} target='_blank'>{new URL(url).hostname} <PiArrowSquareOutLight /></Link>
-                        ))}
-                    </div>
+                    {URLs && URLs.length > 0 && (
+                        <div className={styles._urls}>
+                            {URLs.map((url, index) => (
+                                <Link key={index} href={url} target='_blank'>{new URL(url).hostname} <PiArrowSquareOutLight /></Link>
+                            ))}
+                        </div>
+                    )}
                 </>
             )}
         </div>

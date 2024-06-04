@@ -43,12 +43,10 @@ const ChatImage: FC<IChatImageProps> = ({ }) => {
         })
         socket.emit('sendImage', {
             userId: isAdmin ? decodeURIComponent(params.userId as string) : userId,
-            formData: formData,
+            images: images,
             from: isAdmin ? 'admin' : userId
         })
         setIsOpenPreview(false)
-        setImages([])
-        setPreviews([])
     }
 
 useEffect(() => {
@@ -56,14 +54,20 @@ useEffect(() => {
         if (!previewRef.current) return
         if (previewRef.current.contains(event.target as Node)) return
         setIsOpenPreview(false)
-        if (!fileInputRef.current) return
-        fileInputRef.current.value = ''
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
         document.removeEventListener('mousedown', handleClickOutside)
     }
 }, [])
+
+useEffect(() => {
+    if (isOpenPreview) return
+    setImages([])
+    setPreviews([])
+    if (!fileInputRef.current) return
+    fileInputRef.current.value = ''
+}, [isOpenPreview])
 
 return (
     <div className={styles[`_container__${theme}`]}>
