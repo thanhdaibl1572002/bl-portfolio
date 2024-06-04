@@ -8,7 +8,7 @@ import { PiChatCenteredTextLight, PiSignOutLight } from 'react-icons/pi'
 import { getColorLevel, mainColor, redColor, whiteColor } from '@/variables/variables'
 import ChatLoading from '@/app/chat/ChatLoading'
 import ChatBox from '@/app/chat/ChatBox'
-import ChatTextArea from '@/app/chat/ChatTextArea'
+import ChatText from '@/app/chat/ChatText'
 import Button from '@/components/forms/Button'
 import { socket } from '@/utils/socket'
 import { useRouter } from 'next/navigation'
@@ -45,7 +45,7 @@ const ChatAdmin: FC = () => {
                     <>
                         <ChatList ref={chatListContainerRef} />
                         <ChatBox />
-                        <ChatTextArea />
+                        <ChatText />
                         <Button
                             className={styles._sign__out}
                             width={35}

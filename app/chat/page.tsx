@@ -9,7 +9,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { darkColor, getColorLevel, mainColor, redColor, whiteColor } from '@/variables/variables'
 import ChatLoading from '@/app/chat/ChatLoading'
 import ChatBox from '@/app/chat/ChatBox'
-import ChatTextArea from '@/app/chat/ChatTextArea'
+import ChatText from '@/app/chat/ChatText'
 import ChatWelcome from '@/app/chat/ChatWelcome'
 import Button from '@/components/forms/Button'
 import { socket } from '@/utils/socket'
@@ -101,7 +101,7 @@ const Chat: FC = () => {
                         ) : (
                             <>
                                 <ChatBox />
-                                <ChatTextArea />
+                                <ChatText />
                             </>
                         )}
                     </>

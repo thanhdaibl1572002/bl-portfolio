@@ -35,7 +35,9 @@ const ChatBox: FC = () => {
 
     const [messages, setMessages] = useState<Array<IMessage>>([])
 
-    const isAdmin = firebaseAuth.currentUser?.uid === process.env.ADMIN_ID
+    const userId = firebaseAuth.currentUser?.uid
+    const tokenId = firebaseAuth.currentUser?.getIdToken(true)
+    const isAdmin = userId === process.env.ADMIN_ID
 
     const groupedMessages: Array<Array<IMessage>> = messages.reduce((acc: Array<Array<IMessage>>, message: IMessage) => {
         const lastGroup = acc[acc.length - 1]
@@ -51,8 +53,8 @@ const ChatBox: FC = () => {
         (async () => {
             try {
                 const response = await axios.get(
-                    `${process.env.SERVER_URL as string}/message/get-all-message-by-user-id/${isAdmin ? params.userId : firebaseAuth.currentUser?.uid}`,
-                    { headers: { Authorization: `Bearer ${await firebaseAuth.currentUser?.getIdToken(true)}` } }
+                    `${process.env.SERVER_URL as string}/message/get-all-message-by-user-id/${isAdmin ? params.userId : userId}`,
+                    { headers: { Authorization: `Bearer ${await tokenId}` } }
                 )
                 const messages = response.data.data
                 setMessages(messages)
