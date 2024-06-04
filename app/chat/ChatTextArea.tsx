@@ -1,11 +1,12 @@
-import { ChangeEvent, FC, lazy, memo, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, FC, lazy, memo, useCallback, useRef, useState, useId } from 'react'
 import styles from '@/app/chat/chattextarea.module.sass'
 import { useAppSelector } from '@/redux'
-import { PiImageSquareLight, PiPaperPlaneRightFill } from 'react-icons/pi'
+import { PiPaperPlaneRightFill } from 'react-icons/pi'
 import { firebaseAuth } from '@/utils/firebase'
 import { socket } from '@/utils/socket'
 import { useParams } from 'next/navigation'
 import { RiChatSmile2Fill } from 'react-icons/ri'
+import ChatImagePreview from './ChatImagePreview'
 
 const ChatEmoji = lazy(() => import('@/app/chat/ChatEmoji'))
 
@@ -65,7 +66,7 @@ const ChatTextArea: FC = () => {
                 ref={chatEmojiContainerRef}
                 onSelectEmoji={useCallback(emoji => handleSelectEmoji(emoji), [])}
             />
-            <PiImageSquareLight fontSize={28} />
+            <ChatImagePreview />
             <RiChatSmile2Fill
                 onClick={() => {
                     if (!chatEmojiContainerRef.current) return

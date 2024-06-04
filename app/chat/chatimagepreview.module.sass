@@ -1,0 +1,57 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark
+    position: relative
+    label
+        input[type='file']
+            display: none
+    ._preview
+        position: absolute
+        bottom: calc( 100% + 8px )
+        left: 15px
+        width: 300px
+        height: 300px
+        border-radius: 10px
+        padding: 10px
+        overflow-y: scroll
+        flex-direction: column
+        row-gap: 5px
+        @media ( max-width: 500px )
+            width: 280px
+            bottom: calc( 100% + 11px )
+            left: -5px
+        ._send
+            justify-content: space-between
+            align-items: center
+            position: sticky
+            background: $white-color
+            padding: 5px 0
+            top: -10px
+            left: 0
+            strong
+                font-size: 13px
+                font-weight: 500
+                text-transform: capitalize
+
+        ._images
+            width: 100%
+            height: fit-content
+            display: block
+            column-gap: 10px
+            ._image
+                width: 100%
+                break-inside: avoid
+                margin-bottom: 10px
+                img
+                    width: 100%
+                    border-radius: 8px
+._container__light
+    ._preview
+        background: $white-color
+        box-shadow: 0 0 5px 0 get-color-level($black-color, 10)
+
+._container__dark
+    ._preview
+        background: $black-color
+        box-shadow: 0 0 5px 0 get-color-level($white-color, 5)
