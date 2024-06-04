@@ -38,7 +38,116 @@ const ChatBox: FC = () => {
 
     // const [messages, setMessages] = useState<Array<IMessage>>([])
 
-    const messages: Array<IMessage> = [{"emotions":{"admin":"❤️"},"_id":"665f22e73e44e88f9eee55da","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"6d6dfHt6UcbT4ATiA0QymsClnrl1","type":"text","content":"Xin chào Admin","recall":false,"unread":true,"createdAt":"2024-06-04T14:21:27.722Z","updatedAt":"2024-06-04T14:21:27.722Z","__v":0},{"emotions":{"user":"😂"},"_id":"665f2b91b6521424c986ef67","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"admin","type":"text","content":"Chào bạn","recall":false,"unread":true,"createdAt":"2024-06-04T14:58:25.969Z","updatedAt":"2024-06-04T14:58:25.969Z","__v":0},{"_id":"665f33c2b6521424c986eff4","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"admin","type":"text","content":"Bạn khỏe chứ 😁","recall":false,"unread":true,"createdAt":"2024-06-04T15:33:22.790Z","updatedAt":"2024-06-04T15:33:22.790Z","__v":0},{"emotions":{"admin":"😮"},"_id":"665f3407b6521424c986effa","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"6d6dfHt6UcbT4ATiA0QymsClnrl1","type":"image","content":"45ef48f6-50d9-4726-a0c5-9dcb38299236.png","recall":false,"unread":true,"createdAt":"2024-06-04T15:34:31.449Z","updatedAt":"2024-06-04T15:34:31.449Z","__v":0},{"_id":"665f3407b6521424c986effb","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"6d6dfHt6UcbT4ATiA0QymsClnrl1","type":"image","content":"68daf3c0-95ff-4e50-ae5c-b18a2df511e7.png","recall":false,"unread":true,"createdAt":"2024-06-04T15:34:31.451Z","updatedAt":"2024-06-04T15:34:31.451Z","__v":0},{"_id":"665f3496b6521424c986f003","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"6d6dfHt6UcbT4ATiA0QymsClnrl1","type":"text","content":"Ảnh đẹp chứ?","recall":false,"unread":true,"createdAt":"2024-06-04T15:36:54.197Z","updatedAt":"2024-06-04T15:36:54.197Z","__v":0},{"_id":"665f34abb6521424c986f009","user":{"_id":"665d3b0a3130bd7ee525f7bc","userId":"6d6dfHt6UcbT4ATiA0QymsClnrl1","displayName":"Thành Đại Trương","photoURL":"https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"},"from":"admin","type":"text","content":"Quá trời đẹp luôn","recall":false,"unread":true,"createdAt":"2024-06-04T15:37:15.396Z","updatedAt":"2024-06-04T15:37:15.396Z","__v":0}]
+    const messages: Array<IMessage> = [
+        {
+             "emotions": {
+                  "admin": "❤️"
+             },
+             "_id": "665f22e73e44e88f9eee55da",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+             "type": "text",
+             "content": "Xin chào Admin",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T14:21:27.722Z",
+             "updatedAt": "2024-06-04T14:21:27.722Z",
+             "__v": 0
+        },
+        {
+             "emotions": {
+                  "user": "😂"
+             },
+             "_id": "665f2b91b6521424c986ef67",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "admin",
+             "type": "text",
+             "content": "Chào bạn",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T14:58:25.969Z",
+             "updatedAt": "2024-06-04T14:58:25.969Z",
+             "__v": 0
+        },
+        {
+             "_id": "665f33c2b6521424c986eff4",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "admin",
+             "type": "text",
+             "content": "Cho mình xem ảnh với 😁",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T15:33:22.790Z",
+             "updatedAt": "2024-06-04T15:33:22.790Z",
+             "__v": 0
+        },
+        {
+             "_id": "665f3407b6521424c986effb",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+             "type": "image",
+             "content": "68daf3c0-95ff-4e50-ae5c-b18a2df511e7.png",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T15:34:31.451Z",
+             "updatedAt": "2024-06-04T15:34:31.451Z",
+             "__v": 0
+        },
+        {
+             "_id": "665f3496b6521424c986f003",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+             "type": "text",
+             "content": "Ảnh đẹp chứ?",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T15:36:54.197Z",
+             "updatedAt": "2024-06-04T15:36:54.197Z",
+             "__v": 0
+        },
+        {
+             "_id": "665f34abb6521424c986f009",
+             "user": {
+                  "_id": "665d3b0a3130bd7ee525f7bc",
+                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
+                  "displayName": "Thành Đại Trương",
+                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
+             },
+             "from": "admin",
+             "type": "text",
+             "content": "Quá trời đẹp luôn",
+             "recall": false,
+             "unread": true,
+             "createdAt": "2024-06-04T15:37:15.396Z",
+             "updatedAt": "2024-06-04T15:37:15.396Z",
+             "__v": 0
+        }
+   ]
 
     const userId = firebaseAuth.currentUser?.uid
     const tokenId = firebaseAuth.currentUser?.getIdToken(true)
@@ -111,7 +220,8 @@ const ChatBox: FC = () => {
                             messageId={message._id}
                             type={message.type}
                             text={message.content}
-                            imageSrc={message.content}
+                            imageSrc={`/${message.content}`}
+                            // imageSrc={`${process.env.SERVER_URL}/${imageSrc}`}
                             role={
                                 isAdmin 
                                 ? message.from === 'admin' ? 'sender' : 'receiver' 

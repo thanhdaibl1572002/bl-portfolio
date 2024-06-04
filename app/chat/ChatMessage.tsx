@@ -128,7 +128,7 @@ const ChatMessage: FC<IChatMessageProps> = ({
                 <div className={styles._image} style={{ marginBottom: emotions ? 15 : 0 }}>
                     <div className={styles._tool}>
                         <LightBoxImage 
-                            image={{ src: `${process.env.SERVER_URL}/${imageSrc}`, title: imageAlt }} 
+                            image={{ src: imageSrc, title: imageAlt }} 
                             iconColor={mainColor} 
                         />
                         <Emoji messageId={messageId}/>
