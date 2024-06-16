@@ -7,7 +7,7 @@ import 'lightbox.js-react/dist/index.css'
 import { formatDateTime } from '@/utils/format'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PiArrowSquareOutLight } from 'react-icons/pi'
+import { PiArrowSquareOutLight, PiChatCenteredDotsLight } from 'react-icons/pi'
 import { socket } from '@/utils/socket'
 import { firebaseAuth } from '@/utils/firebase'
 import { useParams } from 'next/navigation'
@@ -89,7 +89,7 @@ const ChatMessage: FC<IChatMessageProps> = ({
                         <div className={styles._content}>
                             {text}
                             {/* <span className={styles._emotion}>❤️</span> */}
-                            <span className={styles._tool} onClick={() => setIsShowEmojis(true)}>⚡</span>
+                            <span className={styles._tool} onClick={() => setIsShowEmojis(true)}><PiChatCenteredDotsLight /></span>
                             <Emojis 
                                 side={side} 
                                 createdAt={createdAt}
@@ -125,7 +125,7 @@ const ChatMessage: FC<IChatMessageProps> = ({
                             </div>
                         ))}
                         <span className={styles._emotion}>❤️</span>
-                        <span className={styles._tool} onClick={() => setIsShowEmojis(true)}>⚡</span>
+                        <span className={styles._tool} onClick={() => setIsShowEmojis(true)}><PiChatCenteredDotsLight /></span>
                         <Emojis 
                             side={side} 
                             createdAt={createdAt}
