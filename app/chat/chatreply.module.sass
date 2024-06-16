@@ -1,0 +1,52 @@
+@import ../../variables/variables
+
+._container__light,
+._container__dark  
+    position: absolute
+    left: 10px
+    bottom: calc( 100% + 30px )
+    width: calc( 100% - 20px )
+    font-size: 13px
+    z-index: 99
+    border-radius: 10px
+    @media ( max-width: 500px )
+        bottom: calc( 100% + 40px )
+    ._reply__text,
+    ._reply__image
+        padding: 10px
+        width: 100%
+        flex-direction: column
+        row-gap: 3px
+        line-height: 20px
+        span
+            width: 100%
+            justify-content: space-between
+            align-items: center
+            strong
+                font-weight: 400
+        img
+            width: fit-content
+            height: 80px
+            border-radius: 5px
+    ._reply__image
+        align-items: center
+
+._container__light
+    color: get-color-level($dark-color, 50)
+    background: $white-color
+    box-shadow: 0 0 5px 0 get-color-level($black-color, 10)
+    ._reply__text,
+    ._reply__image
+        span
+            strong
+                color: $dark-color
+
+._container__dark 
+    color: get-color-level($white-color, 50)
+    background: $dark-color
+    box-shadow: 0 0 5px 0 get-color-level($white-color, 5)
+    ._reply__text,
+    ._reply__image
+        span
+            strong
+                color: $white-color

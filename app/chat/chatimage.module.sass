@@ -28,7 +28,6 @@
             position: sticky
             top: -10.5px
             font-size: 13px
-            background: $white-color
             width: 100%
             padding: 5px 0
         ._images
@@ -47,8 +46,12 @@
     ._preview
         background: $white-color
         box-shadow: 0 0 5px 0 get-color-level($black-color, 10)
+        ._send
+            background: $white-color
 
 ._container__dark
     ._preview
-        background: $black-color
+        background: $dark-color
         box-shadow: 0 0 5px 0 get-color-level($white-color, 5)
+        ._send
+            background: $dark-color

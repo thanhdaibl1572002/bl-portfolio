@@ -5,11 +5,10 @@
     width: 100%
     height: 40px
     justify-content: space-between
-    align-items: center
+    align-items: flex-end
     column-gap: 5px
     position: relative
     @media ( max-width: 500px )
-        height: auto
         padding: 15px
         position: fixed
         bottom: 0
@@ -18,9 +17,10 @@
     textarea
         width: calc( 100% - (28px * 3 + 5px * 3) )
         resize: none
-        padding: 10px
+        padding: 15px 12px
         font-size: 16px
         line-height: 20px
+        border-radius: 10px 10px 0 0
         &:focus
             border-bottom: 1px solid $main-color
         &::placeholder
@@ -28,9 +28,9 @@
     svg
         cursor: pointer
         transition: 0.15s
+        margin-bottom: 7.5px
         &:hover
             transform: scale(1.05)
-        
 
 ._container__light
     @media ( max-width: 500px )

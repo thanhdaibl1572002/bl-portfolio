@@ -1,6 +1,6 @@
 'use client'
 import { FC, lazy, useEffect, useRef, useState } from 'react'
-import styles from '@/app/chat/[userId]/page.module.sass'
+import styles from '@/app/chat/[senderId]/[receiverId]/page.module.sass'
 import { useAppSelector } from '@/redux'
 import { firebaseAuth } from '@/utils/firebase'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
@@ -12,6 +12,7 @@ import ChatText from '@/app/chat/ChatText'
 import Button from '@/components/forms/Button'
 import { socket } from '@/utils/socket'
 import { useRouter } from 'next/navigation'
+import { ReplyProvider } from '@/app/chat/ReplyProvider'
 
 const ChatList = lazy(() => import('@/app/chat/ChatList'))
 
@@ -44,8 +45,10 @@ const ChatAdmin: FC = () => {
                 ) : (
                     <>
                         <ChatList ref={chatListContainerRef} />
-                        <ChatBox />
-                        <ChatText />
+                        <ReplyProvider>
+                            <ChatBox />
+                            <ChatText />
+                        </ReplyProvider>
                         <Button
                             className={styles._sign__out}
                             width={35}

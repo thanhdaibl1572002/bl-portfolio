@@ -1,13 +1,9 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
 'use client'
-import { FC, memo } from 'react'
+import { FC, RefObject, memo, useEffect, useId, useRef, useState } from 'react'
 import styles from '@/app/chat/chatmessage.module.sass'
 import { useAppSelector } from '@/redux'
 import { IoArrowUndoOutline, IoRefreshOutline } from 'react-icons/io5'
-import { Image as LightBoxImage } from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
-import { mainColor } from '@/variables/variables'
 import { formatDateTime } from '@/utils/format'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,165 +11,205 @@ import { PiArrowSquareOutLight } from 'react-icons/pi'
 import { socket } from '@/utils/socket'
 import { firebaseAuth } from '@/utils/firebase'
 import { useParams } from 'next/navigation'
+import { ReplyContext } from '@/app/chat/ReplyProvider'
+
+interface IFile {
+    src: string,
+    alt: string
+}
+
+interface IReply {
+    replyToId?: string,
+    replyText?: string,
+    replyFiles?: Array<IFile>
+}
+
+interface IEmotion {
+    sender?: string
+    receiver?: string
+}
+
+interface IUser {
+    userId: string
+    socketId?: string
+    displayName: string
+    photoURL?: string
+    createdAt?: Date
+    updatedAt?: Date
+}
 
 interface IChatMessageProps {
+    sender: IUser
+    receiver: IUser
     messageId: string
-    role: 'sender' | 'receiver'
-    type: 'text' | 'image'
-    text?: string
-    emotions?: {
-        admin?: string
-        user?: string
-    }
-    imageSrc?: string
-    imageAlt?: string
-    replyText?: string
-    replyImageSrc?: string
-    replyImageAlt?: string
-    recall?: boolean
+    type: 'text' | 'image' | 'video' | 'pdf'
+    text: string
+    files?: Array<IFile>
+    emotion?: IEmotion
+    reply?: IReply
+    recall: boolean
+    unread: boolean
     createdAt: string
-    nameVisible?: string
-    isNameVisible: boolean,
-    avatarSrc?: string
+    chatBoxRef: RefObject<HTMLDivElement>
 }
-
-const emojis = ['👍', '❤️', '😂', '😮', '😢', '😡']
-
-interface IEmojiProps {
-    messageId: string
-}
-
-const Emoji: FC<IEmojiProps> = memo(({ messageId }) => {
-    const userId = firebaseAuth.currentUser?.uid
-    const isAdmin = userId === process.env.ADMIN_ID
-    const params = useParams()
-    const handleUpdateEmotion = (emoji: string): void => {
-        socket.emit('updateEmotion', { 
-            userId: isAdmin ? decodeURIComponent(params.userId as string) : userId,
-            messageId: messageId, 
-            emotion: emoji, 
-            from: isAdmin ? 'admin' : userId, 
-        })
-    }
-    return (
-        <ul className={styles._emojis}>
-            {emojis.map((emoji, index) => (
-                <li key={index} onClick={() => handleUpdateEmotion(emoji)}>{emoji}</li>
-            ))}
-            <li><IoArrowUndoOutline /></li>
-            <li><IoRefreshOutline /></li>
-        </ul>
-    )
-})
-Emoji.displayName = 'Emoji'
 
 const ChatMessage: FC<IChatMessageProps> = ({
+    sender,
+    receiver,
     messageId,
-    role,
-    text,
     type,
-    emotions,
-    imageSrc,
-    imageAlt,
-    replyText,
-    replyImageSrc,
-    replyImageAlt,
+    text,
+    files,
+    emotion,
+    reply,
     recall,
+    unread,
     createdAt,
-    nameVisible,
-    isNameVisible,
-    avatarSrc,
+    chatBoxRef,
 }) => {
-    const { theme } = useAppSelector(state => state.theme)
 
-    const { formattedDate, formattedTime } = formatDateTime(createdAt)
+    const { theme } = useAppSelector(state => state.theme)
 
     const URLs = text ? text.match(/(https?:\/\/[^\s]+)/g) : []
 
-    const userId = firebaseAuth.currentUser?.uid
-    const isAdmin = userId === process.env.ADMIN_ID
+    const side = sender.userId === firebaseAuth.currentUser?.uid ? 'send' : 'receive'
 
-    const renderReply = () => (
-        <>
-            {replyText && <p className={styles._reply__text}>Trả lời: {replyText.length >= 80 ? `${replyText.substring(0, 80)}...` : replyText}</p>}
-            {replyImageSrc && (
-                <div className={styles._reply__image}>
-                    Trả lời:
-                    <img src={replyImageSrc} alt={replyImageAlt || ''} />
-                </div>
-            )}
-        </>
-    )
+    const lightboxIdentifier = useId()
 
-    const renderContent = () => {
-        if (type === 'text' && text) {
-            return (
-                <div className={styles._text} style={{ marginBottom: emotions ? 15 : 0 }}>
-                    <div className={styles._tool}>
-                        {text}
-                        <Emoji messageId={messageId}/>
-                        <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
+    const messageRef = useRef<HTMLDivElement>(null)
+
+    const [isShowEmojis, setIsShowEmojis] = useState<boolean>(false)
+
+    const render = (): JSX.Element | null => {
+        switch (type) {
+            case 'text':
+                if (recall) return <p className={styles._recall}>Tin nhắn đã bị thu hồi</p>
+                return (
+                    <div className={styles._text}>
+                        <div className={styles._content}>
+                            {text}
+                            {/* <span className={styles._emotion}>❤️</span> */}
+                            <span className={styles._tool} onClick={() => setIsShowEmojis(true)}>⚡</span>
+                            <Emojis 
+                                side={side} 
+                                createdAt={createdAt}
+                                isShowEmojis={isShowEmojis}
+                                setIsShowEmojis={setIsShowEmojis} 
+                            />
+                        </div>
+                        {URLs && URLs.length > 0 && (
+                            <div className={styles._urls}>
+                                {URLs.map((url, index) => (
+                                    <Link key={index} href={url} target='_blank'>{new URL(url).hostname} <PiArrowSquareOutLight /></Link>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                    {emotions && (
-                        <ul className={styles._emotions}>
-                            {emotions.admin && <li>{emotions.admin} <span>{isAdmin ? 'Bạn' : 'QTV' }</span></li>}
-                            {emotions.user && <li>{emotions.user} <span>{isAdmin ? 'ND' : 'Bạn' }</span></li>}
-                        </ul>
-                    )}
-                </div>
-            )
-        }
-        if (type === 'image' && imageSrc) {
-            return (
-                <div className={styles._image} style={{ marginBottom: emotions ? 15 : 0 }}>
-                    <div className={styles._tool}>
-                        <LightBoxImage 
-                            image={{ src: imageSrc, title: imageAlt }} 
-                            iconColor={mainColor} 
+                )
+            case 'image':
+                if (recall) return <p className={styles._recall}>Tin nhắn đã bị thu hồi</p>
+                if (!files || files.length === 0) return null
+                return (
+                    <div
+                        className={styles._images}
+                        style={{ columnCount: Math.min(2, files.length) }}
+                    >
+                        {files.slice(0, 4).map((image, index) => (
+                            <div
+                                key={index}
+                                className={styles._image}
+                                onClick={() => { }}
+                            >
+                                <Image width={200} height={200} src={image.src} alt={image.alt} />
+                                {index === 3 && files.length > 4 && <span>+{files.length - 4}</span>}
+                            </div>
+                        ))}
+                        <span className={styles._emotion}>❤️</span>
+                        <span className={styles._tool} onClick={() => setIsShowEmojis(true)}>⚡</span>
+                        <Emojis 
+                            side={side} 
+                            createdAt={createdAt}
+                            isShowEmojis={isShowEmojis}
+                            setIsShowEmojis={setIsShowEmojis} 
                         />
-                        <Emoji messageId={messageId}/>
-                        <span className={styles._timestamp}><span>{formattedTime}</span> {formattedDate}</span>
                     </div>
-                    {emotions && (
-                        <ul className={styles._emotions}>
-                            {emotions.admin && <li>{emotions.admin} <span>{isAdmin ? 'Bạn' : 'QTV' }</span></li>}
-                            {emotions.user && <li>{emotions.user} <span>{isAdmin ? 'ND' : 'Bạn' }</span></li>}
-                        </ul>
-                    )}
-                </div>
-            )
+                )
+            case 'video':
+                return null
+            case 'pdf':
+                return null
+            default:
+                return null
         }
-        return null
     }
 
     return (
-        <div className={styles[`_container__${theme}__${role}`]}>
-            {role === 'receiver' && isNameVisible && (
-                <strong>
-                    <Image width={28} height={28} src={avatarSrc ?? '/message.jpeg'} alt='' /> {nameVisible ?? 'Trương Thành Đại'}
+        <div
+            className={styles[`_container__${theme}__${side}`]}
+            ref={messageRef}
+            data-message-id={messageId}
+        >
+            {side === 'receive' && (
+                <strong className={styles._name}>
+                    <Image width={28} height={28} src={sender.photoURL || ''} alt='' style={{ borderRadius: '50%' }} />
+                    {sender.displayName}
                 </strong>
             )}
-            {recall ? (
-                <div className={styles._message}>
-                    <div className={styles._recall__text}>Tin nhắn đã bị thu hồi</div>
-                </div>
-            ) : (
-                <>
-                    <div className={styles._message}>
-                        {renderReply()}
-                        {renderContent()}
-                    </div>
-                    {URLs && URLs.length > 0 && (
-                        <div className={styles._urls}>
-                            {URLs.map((url, index) => (
-                                <Link key={index} href={url} target='_blank'>{new URL(url).hostname} <PiArrowSquareOutLight /></Link>
-                            ))}
-                        </div>
-                    )}
-                </>
-            )}
+            {render()}
         </div>
     )
 }
 
 export default memo(ChatMessage)
+
+// <SlideshowLightbox 
+//     downloadImages
+//     showArrows={false}
+//     images={files} 
+//     showThumbnails
+//     open={isOpenLightBox} 
+//     lightboxIdentifier={lightboxIdentifier}
+//     iconColor={mainColor}
+//     onClose={() => setIsOpenLightBox(false)} 
+// />
+
+
+interface IEmojiProps {
+    side: 'send' | 'receive'
+    createdAt: string
+    isShowEmojis: boolean
+    setIsShowEmojis: (value: boolean) => void
+}
+
+const Emojis: FC<IEmojiProps> = ({
+    side,
+    createdAt,
+    isShowEmojis,
+    setIsShowEmojis,
+}) => {
+    const emojisRef = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (!emojisRef.current) return
+            if (emojisRef.current.contains(event.target as Node)) return
+            setIsShowEmojis(false)
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [setIsShowEmojis])
+    if (!isShowEmojis) return null
+    return (
+        <div className={styles._emojis} ref={emojisRef}>
+            <ul>
+                {['👍', '❤️', '😂', '😮', '😢', '😡'].map(emoji => (
+                    <li key={emoji}>{emoji}</li>
+                ))}
+                {side === 'send' && <li><IoRefreshOutline /></li>}
+                <li><IoArrowUndoOutline /></li>
+            </ul>
+            <time className={styles._timestamp}>{formatDateTime(createdAt)}</time>
+        </div>
+    )
+}

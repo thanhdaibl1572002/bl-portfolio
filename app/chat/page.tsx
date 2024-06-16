@@ -15,6 +15,7 @@ import Button from '@/components/forms/Button'
 import { socket } from '@/utils/socket'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { ReplyProvider } from '@/app/chat/ReplyProvider'
 
 const Chat: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
@@ -68,7 +69,6 @@ const Chat: FC = () => {
     const handleSignOut = (): void => {
         signOut(firebaseAuth)
         setIsLoggedIn(false)
-        localStorage.removeItem('BLFOLIO_USER_ID')
     }
 
     return (
@@ -91,7 +91,7 @@ const Chat: FC = () => {
                             bubbleColor={theme === 'light' ? redColor : whiteColor}
                             onClick={handleSignOut}
                         />
-                        {isAdmin ? (
+                        {/* {isAdmin ? (
                             <ChatWelcome 
                                 icon={<PiUserCheckThin />}
                                 message={'Xin chào Admin'}
@@ -100,10 +100,13 @@ const Chat: FC = () => {
                             />
                         ) : (
                             <>
-                                <ChatBox />
-                                <ChatText />
+                                
                             </>
-                        )}
+                        )} */}
+                        <ReplyProvider>
+                            <ChatBox />
+                            <ChatText />
+                        </ReplyProvider>
                     </>
                 ) : (
                     <div className={styles._sign__in}>

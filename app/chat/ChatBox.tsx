@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import styles from '@/app/chat/chatbox.module.sass'
 import { useAppSelector } from '@/redux'
 import ChatMessage from '@/app/chat/ChatMessage'
@@ -9,159 +9,27 @@ import axios from 'axios'
 import { socket } from '@/utils/socket'
 import { PiChatTeardropSlashThin } from 'react-icons/pi'
 
-interface IMessage {
-    _id: string
-    user: {
-        _id: string
-        userId: string
-        displayName: string
-        photoURL: string
-    }
-    from: string
-    type: 'text' | 'image'
-    content: string
-    emotions?: {
-        admin?: string
-        user?: string
-    }
-    replyTo?: Object | null
-    recall?: boolean
-    unread?: boolean
-    createdAt: string
-    updatedAt: string
-    __v?: number
-}
-
 const ChatBox: FC = () => {
     const { theme } = useAppSelector(state => state.theme)
     const params = useParams()
 
     // const [messages, setMessages] = useState<Array<IMessage>>([])
 
-    const messages: Array<IMessage> = [
-        {
-             "emotions": {
-                  "admin": "❤️"
-             },
-             "_id": "665f22e73e44e88f9eee55da",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-             "type": "text",
-             "content": "Xin chào Admin",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T14:21:27.722Z",
-             "updatedAt": "2024-06-04T14:21:27.722Z",
-             "__v": 0
-        },
-        {
-             "emotions": {
-                  "user": "😂"
-             },
-             "_id": "665f2b91b6521424c986ef67",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "admin",
-             "type": "text",
-             "content": "Chào bạn",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T14:58:25.969Z",
-             "updatedAt": "2024-06-04T14:58:25.969Z",
-             "__v": 0
-        },
-        {
-             "_id": "665f33c2b6521424c986eff4",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "admin",
-             "type": "text",
-             "content": "Cho mình xem ảnh với 😁",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T15:33:22.790Z",
-             "updatedAt": "2024-06-04T15:33:22.790Z",
-             "__v": 0
-        },
-        {
-             "_id": "665f3407b6521424c986effb",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-             "type": "image",
-             "content": "68daf3c0-95ff-4e50-ae5c-b18a2df511e7.png",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T15:34:31.451Z",
-             "updatedAt": "2024-06-04T15:34:31.451Z",
-             "__v": 0
-        },
-        {
-             "_id": "665f3496b6521424c986f003",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-             "type": "text",
-             "content": "Ảnh đẹp chứ?",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T15:36:54.197Z",
-             "updatedAt": "2024-06-04T15:36:54.197Z",
-             "__v": 0
-        },
-        {
-             "_id": "665f34abb6521424c986f009",
-             "user": {
-                  "_id": "665d3b0a3130bd7ee525f7bc",
-                  "userId": "6d6dfHt6UcbT4ATiA0QymsClnrl1",
-                  "displayName": "Thành Đại Trương",
-                  "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c"
-             },
-             "from": "admin",
-             "type": "text",
-             "content": "Quá trời đẹp luôn",
-             "recall": false,
-             "unread": true,
-             "createdAt": "2024-06-04T15:37:15.396Z",
-             "updatedAt": "2024-06-04T15:37:15.396Z",
-             "__v": 0
-        }
-   ]
-
     const userId = firebaseAuth.currentUser?.uid
     const tokenId = firebaseAuth.currentUser?.getIdToken(true)
     const isAdmin = userId === process.env.ADMIN_ID
 
-    const groupedMessages: Array<Array<IMessage>> = messages.reduce((acc: Array<Array<IMessage>>, message: IMessage) => {
-        const lastGroup = acc[acc.length - 1]
-        if (lastGroup && lastGroup[lastGroup.length - 1].from === message.from) {
-            lastGroup.push(message)
-        } else {
-            acc.push([message])
-        }
-        return acc
-    }, [])
+    const chatBoxRef = useRef<HTMLDivElement>(null)
+
+    // const groupedMessages: Array<Array<IMessage>> = messages.reduce((acc: Array<Array<IMessage>>, message: IMessage) => {
+    //     const lastGroup = acc[acc.length - 1]
+    //     if (lastGroup && lastGroup[lastGroup.length - 1].from === message.from) {
+    //         lastGroup.push(message)
+    //     } else {
+    //         acc.push([message])
+    //     }
+    //     return acc
+    // }, [])
 
     // useEffect(() => {
     //     (async () => {
@@ -179,10 +47,10 @@ const ChatBox: FC = () => {
     // }, [isAdmin, params.userId])
 
     // useEffect(() => {
-    //     const handleReceiveMessage = (message: IMessage) => {
+    //     const handleReceiveMessage = (message: IMessage): void => {
     //         setMessages(prevMessages => [...prevMessages, message])
     //     }
-    //     if (isAdmin) socket.on('receiveMessage', handleReceiveMessage)    
+    //     if (isAdmin) socket.on('receiveMessage', handleReceiveMessage)
     //     else socket.on('receiveMessage', handleReceiveMessage)
     //     return () => {
     //         if (isAdmin) socket.off('receiveMessage', handleReceiveMessage)
@@ -191,18 +59,18 @@ const ChatBox: FC = () => {
     // }, [isAdmin])
 
     // useEffect(() => {
-    //     const handleUpdateMessage = (message: IMessage) => {
+    //     const handleUpdateMessage = (message: IMessage): void => {
     //         setMessages(prevMessages => {
     //             const messageIndex = prevMessages.findIndex(msg => msg._id === message._id)
     //             if (messageIndex !== -1) {
     //                 const updatedMessages = [...prevMessages]
     //                 updatedMessages[messageIndex] = message
     //                 return updatedMessages
-    //             } 
+    //             }
     //             return prevMessages
     //         })
     //     }
-    //     if (isAdmin) socket.on('updateMessage', handleUpdateMessage)    
+    //     if (isAdmin) socket.on('updateMessage', handleUpdateMessage)
     //     else socket.on('updateMessage', handleUpdateMessage)
     //     return () => {
     //         if (isAdmin) socket.off('updateMessage', handleUpdateMessage)
@@ -210,40 +78,129 @@ const ChatBox: FC = () => {
     //     }
     // }, [isAdmin])
 
+    // useEffect(() => {
+    //     if (!chatBoxRef.current) return
+    //     const isNearBottom = chatBoxRef.current.scrollHeight - chatBoxRef.current.scrollTop <= chatBoxRef.current.clientHeight + 250
+    //     const isAtTop = chatBoxRef.current.scrollTop === 0
+    //     if (isNearBottom || isAtTop) {
+
+    //     }
+    //     chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
+    // }, [messages.length])
+
+    // console.log('Chat Box re-render')
+
     return (
-        <div className={styles[`_container__${theme}`]}>
-            {groupedMessages.length > 0 ? groupedMessages.map((group, index) => (
+        <div className={styles[`_container__${theme}`]} ref={chatBoxRef}>
+            {/* User gửi */}
+            <ChatMessage
+                sender={{
+                    userId: '6d6dfHt6UcbT4ATiA0QymsClnrl1',
+                    displayName: 'Boy\'s Love',
+                    photoURL: 'https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c',
+                }}
+                receiver={{
+                    userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
+                    displayName: '🔥Quản trị viên🔥',
+                    photoURL: '/avatar.png',
+                }}
+                messageId={'1'}
+                type={'text'}
+                text={'T'}
+                files={[]}
+                emotion={{
+                    sender: '',
+                    receiver: '',
+                }}
+                reply={{
+                    replyToId: '',
+                    replyText: '',
+                    replyFiles: [],
+                }}
+                recall={false}
+                unread={false}
+                createdAt={'2024-06-10T15:39:20.856+00:00'}
+                chatBoxRef={chatBoxRef}
+            />
+            {/* Admin gửi */}
+            <ChatMessage
+                sender={{
+                    userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
+                    displayName: '🔥Quản trị viên🔥',
+                    photoURL: '/avatar.png',
+                }}
+                receiver={{
+                    userId: '6d6dfHt6UcbT4ATiA0QymsClnrl1',
+                    displayName: 'Boy\'s Love',
+                    photoURL: 'https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c',
+                }}
+                messageId={'2'}
+                type={'text'}
+                text={'Tôi là Admin'}
+                files={[]}
+                emotion={{
+                    sender: '',
+                    receiver: '',
+                }}
+                reply={{
+                    replyToId: '',
+                    replyText: '',
+                    replyFiles: [],
+                }}
+                recall={false}
+                unread={false}
+                createdAt={'2024-06-10T15:39:20.856+00:00'}
+                chatBoxRef={chatBoxRef}
+            />
+
+            <ChatMessage
+                sender={{
+                    userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
+                    displayName: '🔥Quản trị viên🔥',
+                    photoURL: '/avatar.png',
+                }}
+                receiver={{
+                    userId: '6d6dfHt6UcbT4ATiA0QymsClnrl1',
+                    displayName: 'Boy\'s Love',
+                    photoURL: 'https://lh3.googleusercontent.com/a/ACg8ocKhy5DmkS6gCeHgJeFLMKsJbfbjjWHbEcMCTEEuvCwXZWBxyQ=s96-c',
+                }}
+                messageId={'2'}
+                type={'image'}
+                text={'Đây là hình ảnh'}
+                files={[
+                    { src: '/light-box-1.jpg', alt: '' },
+                    { src: '/light-box-2.jpg', alt: '' },
+                    { src: '/light-box-3.jpg', alt: '' },
+                    { src: '/light-box-4.jpg', alt: '' },
+                    { src: '/light-box-5.jpg', alt: '' },
+                ]}
+                emotion={{
+                    sender: '',
+                    receiver: '',
+                }}
+                reply={{
+                    replyToId: '',
+                    replyText: '',
+                    replyFiles: [],
+                }}
+                recall={false}
+                unread={false}
+                createdAt={'2024-06-10T15:39:20.856+00:00'}
+                chatBoxRef={chatBoxRef}
+            />
+            {/* {groupedMessages.length > 0 ? groupedMessages.map((group, index) => (
                 <div className={styles._group} key={index}>
                     {group.map((message, index) => (
-                        <ChatMessage
-                            key={message._id}
-                            messageId={message._id}
-                            type={message.type}
-                            text={message.content}
-                            imageSrc={`/${message.content}`}
-                            // imageSrc={`${process.env.SERVER_URL}/${imageSrc}`}
-                            role={
-                                isAdmin 
-                                ? message.from === 'admin' ? 'sender' : 'receiver' 
-                                : message.from === 'admin' ? 'receiver' : 'sender'
-                            }
-                            emotions={message.emotions}
-                            replyText={''}
-                            recall={message.recall}
-                            createdAt={message.createdAt}
-                            isNameVisible={index === 0}
-                            nameVisible={isAdmin ? message.user.displayName : '⚡QTV⚡'}
-                            avatarSrc={isAdmin ? message.user.photoURL : '/message.jpeg'}
-                        />
+                        
                     ))}
                 </div>
             )) : (
-                <ChatWelcome 
+                <ChatWelcome
                     icon={<PiChatTeardropSlashThin />}
                     message={'Chưa có tin nhắn'}
                     description={'Hãy gửi tin nhắn đầu tiên của bạn'}
                 />
-            )}
+            )} */}
         </div>
     )
 }
