@@ -145,8 +145,10 @@ const ChatMessage: FC<IChatMessageProps> = ({
                     </div>
                 )
             case 'video':
+                if (recall) return <p className={styles._recall}>Tin nhắn đã bị thu hồi</p>
                 return null
             case 'pdf':
+                if (recall) return <p className={styles._recall}>Tin nhắn đã bị thu hồi</p>
                 return null
             default:
                 return null
@@ -209,15 +211,28 @@ const Emojis: FC<IEmojiProps> = ({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [setIsShowEmojis])
+
+    const handleUpdateEmotion = (emoji: string): void => {
+        setIsShowEmojis(false)
+    }
+
+    const handleReCall = (): void => {
+        setIsShowEmojis(false)
+    }
+
+    const handleReply = (): void => {
+        setIsShowEmojis(false)
+    }
+
     if (!isShowEmojis) return null
     return (
         <div className={styles._emojis} ref={emojisRef}>
             <ul>
                 {['👍', '❤️', '😂', '😮', '😢', '😡'].map(emoji => (
-                    <li key={emoji}>{emoji}</li>
+                    <li key={emoji} onClick={() => handleUpdateEmotion(emoji)}>{emoji}</li>
                 ))}
-                {side === 'send' && <li><IoRefreshOutline /></li>}
-                <li><IoArrowUndoOutline /></li>
+                {side === 'send' && <li onClick={handleReCall}><IoRefreshOutline /></li>}
+                <li onClick={handleReply}><IoArrowUndoOutline /></li>
             </ul>
             <time className={styles._timestamp}>{formatDateTime(createdAt)}</time>
         </div>
