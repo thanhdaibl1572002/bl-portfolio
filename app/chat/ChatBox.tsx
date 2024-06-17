@@ -101,7 +101,7 @@ const ChatBox: FC = () => {
                 }}
                 receiver={{
                     userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
-                    displayName: '🔥Quản trị viên🔥',
+                    displayName: '⚡️Quản trị viên⚡️',
                     photoURL: '/avatar.png',
                 }}
                 messageId={'1'}
@@ -126,7 +126,7 @@ const ChatBox: FC = () => {
             <ChatMessage
                 sender={{
                     userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
-                    displayName: '🔥Quản trị viên🔥',
+                    displayName: '⚡️Quản trị viên⚡️',
                     photoURL: '/avatar.png',
                 }}
                 receiver={{
@@ -139,8 +139,8 @@ const ChatBox: FC = () => {
                 text={'Tôi là Admin'}
                 files={[]}
                 emotion={{
-                    sender: '',
-                    receiver: '',
+                    sender: '❤️',
+                    receiver: '😂',
                 }}
                 reply={{
                     replyToId: '',
@@ -156,7 +156,7 @@ const ChatBox: FC = () => {
             <ChatMessage
                 sender={{
                     userId: 'RBxEAehri7NF4EpR6zqJOsCDrbd2',
-                    displayName: '🔥Quản trị viên🔥',
+                    displayName: '⚡️Quản trị viên⚡️',
                     photoURL: '/avatar.png',
                 }}
                 receiver={{

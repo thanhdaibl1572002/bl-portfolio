@@ -88,7 +88,12 @@ const ChatMessage: FC<IChatMessageProps> = ({
                     <div className={styles._text}>
                         <div className={styles._content}>
                             {text}
-                            {/* <span className={styles._emotion}>❤️</span> */}
+                            {emotion && (emotion.sender || emotion.receiver) && (
+                                <ul className={styles._emotion}>
+                                    <li>{emotion.sender}</li>
+                                    <li>{emotion.receiver}</li>
+                                </ul>
+                            )}
                             <span className={styles._tool} onClick={() => setIsShowEmojis(true)}><PiChatCenteredDotsLight /></span>
                             <Emojis 
                                 side={side} 
@@ -124,7 +129,12 @@ const ChatMessage: FC<IChatMessageProps> = ({
                                 {index === 3 && files.length > 4 && <span>+{files.length - 4}</span>}
                             </div>
                         ))}
-                        <span className={styles._emotion}>❤️</span>
+                        {emotion && (emotion.sender || emotion.receiver) && (
+                            <ul className={styles._emotion}>
+                                <li>{emotion.sender}</li>
+                                <li>{emotion.receiver}</li>
+                            </ul>
+                        )}
                         <span className={styles._tool} onClick={() => setIsShowEmojis(true)}><PiChatCenteredDotsLight /></span>
                         <Emojis 
                             side={side} 
